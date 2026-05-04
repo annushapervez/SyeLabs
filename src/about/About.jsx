@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { delay, motion, useInView } from "framer-motion";
 import LineSVG from "../assets/line.svg";
 import Footer from '../components/Footer'
 import PageTransitionLayout from "../layouts/PageTransitionLayout";
@@ -59,19 +59,27 @@ const team = [
     image: "fatema.png",
   },
 ];
-const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
-  show: (i) => ({
+
+const teamContainer = {
+  hidden: {},
+  show: {
+    transition: {
+      duration: 1,
+    },
+  },
+};
+
+const teamItem = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.7,
-      delay: i * 0.1,
       ease: [0.22, 1, 0.36, 1],
     },
-  }),
+  },
 };
-
 function StaggeredFade({ text }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -257,6 +265,11 @@ const firstBeatInView = useInView(firstBeatRef, {
   once: true,
   amount: 0.6,
 });
+const teamRef = useRef(null);
+const teamInView = useInView(teamRef, {
+  once: true,
+  amount: 0.3,
+});
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -321,45 +334,48 @@ const firstBeatInView = useInView(firstBeatRef, {
       {/* ── Divider ── */}
       <div className="about-rule" />
 
-      {/* ── Team ── */}
-      <section className="about-team">
-        <motion.h2
-          className="about-section-label"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          The people behind it
-        </motion.h2>
 
-        <div className="team-grid">
-          {team.map((person, i) => (
-            <motion.div
-              className="team-card"
-              key={person.name}
-              custom={i}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-            >
-<div className="team-avatar">
-  {person.image ? (
-    <img src={person.image} alt={person.name} />
-  ) : (
-    <span>{person.name.charAt(0)}</span>
-  )}
-</div>
-              <div className="team-info">
-                <p className="team-name">{person.name}</p>
-                <p className="team-role">{person.role}</p>
-                <p className="team-bio">{person.bio}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
+      {/* ── Team ── */}
+     <section className="about-team" ref={teamRef}>
+  <motion.div
+    variants={teamContainer}
+    initial="hidden"
+    animate={teamInView ? "show" : "hidden"}
+  >
+    {/* Title */}
+    <motion.h2
+      className="about-section-label"
+      variants={teamItem}
+    >
+      The people behind it
+    </motion.h2>
+
+    {/* Grid */}
+    <div className="team-grid">
+      {team.map((person, i) => (
+        <motion.div
+          className="team-card"
+          key={person.name}
+          variants={teamItem}
+        >
+          <div className="team-avatar">
+            {person.image ? (
+              <img src={person.image} alt={person.name} />
+            ) : (
+              <span>{person.name.charAt(0)}</span>
+            )}
+          </div>
+
+          <div className="team-info">
+            <p className="team-name">{person.name}</p>
+            <p className="team-role">{person.role}</p>
+            <p className="team-bio">{person.bio}</p>
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  </motion.div>
+</section>
             <div className="about-rule" />
 
 
