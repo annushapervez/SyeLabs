@@ -1,90 +1,106 @@
 import { useEffect, useState, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import './NavBar.css';
 
 const NavBar = () => {
-    const [hovered, setHovered] = useState(null);
-    const [show, setShow] = useState(true);
-    const [pastHero, setPastHero] = useState(false);
-    const NAV_LINKS = ["Mentorship", "Conferences", "Home Lab", "About"];
-    let lastScroll = useRef(0);
+  const [hovered, setHovered] = useState(null);
+  const [show, setShow] = useState(true);
+  const [pastHero, setPastHero] = useState(false);
+  const lastScroll = useRef(0);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScroll = window.scrollY;
+  const NAV_LINKS = [
+    { label: "Mentorship", path: "/" },
+    { label: "Conferences", path: "/" },
+    { label: "Home Lab", path: "/" },
+    { label: "About", path: "/about" },
+    
+  ];
+    const location = useLocation();
 
-            if (currentScroll > lastScroll.current) {
-                setShow(false);
-            } else {
-                setShow(true);
-            }
+  const isHome = location.pathname === "/";
 
-            lastScroll.current = currentScroll;
-        };
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+      if (currentScroll > lastScroll.current) {
+        setShow(false);
+      } else {
+        setShow(true);
+      }
 
-    useEffect(() => {
-        const hero = document.querySelector(".hero"); // make sure Hero.jsx root has className="hero"
+      lastScroll.current = currentScroll;
+    };
 
-        if (!hero) return;
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                setPastHero(!entry.isIntersecting);
-            },
-            {
-                root: null,
-                threshold: 0.1, 
-            }
-        );
+  useEffect(() => {
+    if (!isHome) {
+      setPastHero(true); // always dark on non-home pages
+      return;
+    }
 
-        observer.observe(hero);
-        return () => observer.disconnect();
-    }, []);
+    const hero = document.querySelector(".hero");
+    if (!hero) return;
 
-    return (
-        <nav className={`navbar ${show ? "nav-show" : "nav-hide"} ${pastHero ? "navbar--dark" : ""}`}>
-            <a href='/' className="sye-logo">
-                SYELABS
-                <div className="sye-logo-dots">
-                    <span />
-                    <span />
-                </div>
-            </a>
-
-            <ul className="sye-links">
-                {NAV_LINKS.map((label) => (
-                    <li key={label}>
-                        <a
-                            href="#"
-                            className={`sye-link${hovered === label ? " active" : ""}`}
-                            onMouseEnter={() => setHovered(label)}
-                            onMouseLeave={() => setHovered(null)}
-                        >
-                            {label}
-                        </a>
-                    </li>
-                ))}
-
-                <div className='sye-divider' />
-
-                <div className='socials'>
-                    <li>
-                        <a href="https://linkedin.com/" target="_blank" rel="noreferrer" className="sye-social-icon">
-                            <img src="/linkedin.png" alt="LinkedIn" className="social-icon-img" />
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://instagram.com/" target="_blank" rel="noreferrer" className="sye-social-icon">
-                            <img src="/instagram.png" alt="Instagram" className="social-icon-img" />
-                        </a>
-                    </li>
-                </div>
-            </ul>
-        </nav>
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setPastHero(!entry.isIntersecting);
+      },
+      { threshold: 0.1 }
     );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, [isHome]); 
+
+  return (
+    <nav className={`navbar ${show ? "nav-show" : "nav-hide"} ${pastHero ? "navbar--dark" : ""}`}>
+      
+      {/* Logo */}
+      <Link to="/" className="sye-logo">
+        SYELABS
+        <div className="sye-logo-dots">
+          <span />
+          <span />
+        </div>
+      </Link>
+
+      {/* Links */}
+      <ul className="sye-links">
+        {NAV_LINKS.map((link) => (
+          <li key={link.label}>
+            <Link
+              to={link.path}
+              className={`sye-link${hovered === link.label ? " active" : ""}`}
+              onMouseEnter={() => setHovered(link.label)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+
+        <div className="sye-divider" />
+
+        {/* Socials */}
+        <div className="socials">
+          <li>
+            <a href="https://linkedin.com/" target="_blank" rel="noreferrer" className="sye-social-icon">
+              <img src="/linkedin.png" alt="LinkedIn" className="social-icon-img" />
+            </a>
+          </li>
+          <li>
+            <a href="https://instagram.com/" target="_blank" rel="noreferrer" className="sye-social-icon">
+              <img src="/instagram.png" alt="Instagram" className="social-icon-img" />
+            </a>
+          </li>
+        </div>
+      </ul>
+    </nav>
+  );
 };
 
 export default NavBar;

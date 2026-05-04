@@ -127,8 +127,8 @@ body {
 .offering-glass {
   position: absolute;
   inset: 0;
-  backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
   background: linear-gradient(
     to bottom,
     rgba(255, 248, 240, 0.0) 0%,

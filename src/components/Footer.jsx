@@ -1,7 +1,12 @@
+import { Link } from "react-router-dom";
 import "./Footer.css";
 
 const Footer = () => {
-  const LINKS = ["LinkedIn", "About", "Contact"];
+  const LINKS = [
+    { label: "LinkedIn", href: "https://linkedin.com" },
+    { label: "About", to: "/about" },
+    { label: "Contact", to: "/contact" },
+  ];
 
   return (
     <footer className="footer">
@@ -14,11 +19,22 @@ const Footer = () => {
 
         <div className="footer-right">
           <ul className="footer-links">
-            {LINKS.map((label) => (
-              <li key={label}>
-                <a href="#" className="footer-link">
-                  {label}
-                </a>
+            {LINKS.map((link) => (
+              <li key={link.label}>
+                {link.to ? (
+                  <Link to={link.to} className="footer-link">
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-link"
+                  >
+                    {link.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>

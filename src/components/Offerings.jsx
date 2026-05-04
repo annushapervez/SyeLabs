@@ -1,5 +1,6 @@
 import "./Offerings.css";
-
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 const offerings = [
   {
     title: "Mentorship",
@@ -27,6 +28,48 @@ const offerings = [
   },
 ];
 
+function StaggeredBody({ text, className }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  const container = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.02,
+      },
+    },
+  };
+
+  const word = {
+    hidden: { opacity: 0, y: 10 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.25, ease: "easeOut" },
+    },
+  };
+
+  return (
+    <motion.p
+      ref={ref}
+      className={className}
+      variants={container}
+      initial="hidden"
+      animate={isInView ? "show" : "hidden"}
+    >
+      {text.split(" ").map((w, i) => (
+        <motion.span
+          key={i}
+          variants={word}
+          style={{ display: "inline-block", marginRight: "0.25em" }}
+        >
+          {w}
+        </motion.span>
+      ))}
+    </motion.p>
+  );
+}
 const Offerings = ({ onHoverColor }) => {
   const defaultBg = "#F2E8D9"; 
 
@@ -50,8 +93,10 @@ const Offerings = ({ onHoverColor }) => {
 >          
           <div className="offering-left">
             <h2 className="offering-title">{item.title}</h2>
-            <p className="offering-desc">{item.desc}</p>
-
+<StaggeredBody
+  text={item.desc}
+  className="offering-desc"
+/>
             <div className="offering-tags">
               {item.tags.map((tag, j) => (
                 <span key={j} className="offering-tag">{tag}</span>
