@@ -29,7 +29,6 @@ function AnimatedRoutes({ lenisRef }) {
   }, [location.pathname])
 
 return (
-  <PageTransitionLayout>
     <div style={{ position: "relative" }}>
       <Routes location={location} key={location.pathname}>
         <Route
@@ -49,7 +48,6 @@ return (
         <Route path="/about" element={<About />} />
       </Routes>
     </div>
-  </PageTransitionLayout>
 )
 }
 

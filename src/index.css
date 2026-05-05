@@ -28,36 +28,35 @@ body {
 
 @font-face {
   font-family: 'Saans';
-  src: url('/Saans/Saans-TRIAL-Light.otf') format('opentype');
+  src: url('/saans-font-family/Saans-TRIAL-Light.otf') format('opentype');
   font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Saans';
-  src: url('/Saans/Saans-TRIAL-Regular.otf') format('opentype');
+  src: url('/saans-font-family/Saans-TRIAL-Regular.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Saans';
-  src: url('/Saans/Saans-TRIAL-Medium.otf') format('opentype');
+  src: url('/saans-font-family/Saans-TRIAL-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Saans';
-  src: url('/Saans/Saans-TRIAL-SemiBold.otf') format('opentype');
+  src: url('/saans-font-family/Saans-TRIAL-SemiBold.otf') format('opentype');
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Saans';
-  src: url('/Saans/Saans-TRIAL-Bold.otf') format('opentype');
+  src: url('/saans-font-family/Saans-TRIAL-Bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
 }
-

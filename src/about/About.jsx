@@ -114,45 +114,19 @@ function StaggeredFade({ text }) {
   )
 }
 
-function StaggeredBody({ text, className, trigger }) {
-  const container = {
-    hidden: {},
-    show: {
-      transition: {
-        staggerChildren: 0.02, 
-        delayChildren: 0.1,    
-      },
-    },
-  };
-
-  const word = {
-    hidden: { opacity: 0, y: 10 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.25, ease: "easeOut" },
-    },
-  };
-
+function FadeUpBody({ text, className, trigger }) {
   return (
     <motion.p
       className={className}
-      variants={container}
-      initial="hidden"
-      animate={trigger ? "show" : "hidden"}
+      initial={{ opacity: 0, y: 20 }}
+      animate={trigger ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
     >
-      {text.split(" ").map((w, i) => (
-        <motion.span
-          key={i}
-          variants={word}
-          style={{ display: "inline-block", marginRight: "0.25em" }}
-        >
-          {w}
-        </motion.span>
-      ))}
+      {text}
     </motion.p>
   );
 }
+
 function StaggeredLines({ lines, className }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -242,14 +216,11 @@ function TimelineBeat({ beat, i, firstBeatRef }) {
         <motion.div className="tl-beat-title" variants={item}>
           {beat.title}
         </motion.div>
-
-        <StaggeredBody
-          text={beat.body}
-          className="tl-beat-body"
-          trigger={isInView}
-          delay={0.15} 
-        />
-
+<FadeUpBody
+  text={beat.body}
+  className="tl-beat-body"
+  trigger={isInView}
+/>
       </div>
     </motion.div>
   );
