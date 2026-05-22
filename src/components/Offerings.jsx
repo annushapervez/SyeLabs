@@ -1,5 +1,6 @@
 import "./Offerings.css";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 const offerings = [
   {
@@ -9,6 +10,7 @@ const offerings = [
     hoverColor: "#f2faff",
     video: "mentorship.mov",
     visualBg: "#5a4334",
+    link: "/mentorship",
   },
   {
     title: "Conferences",
@@ -17,6 +19,8 @@ const offerings = [
     hoverColor: "#fcf7ff",
     video: "conferences.mp4",
     visualBg: "var(--rust)",
+      link: "/conferences",
+
   },
   {
     title: "Home Labs",
@@ -103,7 +107,10 @@ const Offerings = ({ onHoverColor }) => {
               ))}
             </div>
 
-            <a href="#" className="offering-link">Learn more →</a>
+            {item.link
+              ? <Link to={item.link} className="offering-link">Learn more →</Link>
+              : <a href="#" className="offering-link">Learn more →</a>
+            }
           </div>
 
 <div

@@ -3,7 +3,7 @@ import "./Footer.css";
 
 const Footer = () => {
   const LINKS = [
-    { label: "LinkedIn", href: "https://linkedin.com" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/syelabs/" },
     { label: "About", to: "/about" },
     { label: "Contact", to: "/contact" },
   ];

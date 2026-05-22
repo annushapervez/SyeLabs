@@ -67,15 +67,15 @@ body {
 
 .offering-tag {
   font-family: 'Saans', sans-serif;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 400;
   letter-spacing: 0.1em;
-  background-color: #f7f3ee;
-  text-transform: uppercase;
-  color: var(--brown);
-  border: 1px solid rgba(59, 31, 16, 0.15);
+  background: rgba(92, 42, 20, 0.08);
+  color: var(--deep, #1a0a04);
   padding: 6px 14px;
   border-radius: 999px;
+
+  
 }
 
 .offering-link {

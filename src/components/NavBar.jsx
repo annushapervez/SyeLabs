@@ -9,15 +9,17 @@ const NavBar = () => {
   const lastScroll = useRef(0);
 
   const NAV_LINKS = [
-    { label: "Mentorship", path: "/" },
-    { label: "Conferences", path: "/" },
+    { label: "Mentorship", path: "/mentorship" },
+    { label: "Conferences", path: "/conferences" },
     { label: "Home Lab", path: "/" },
     { label: "About", path: "/about" },
-    
   ];
-    const location = useLocation();
 
+  const location = useLocation();
   const isHome = location.pathname === "/";
+  const isMentorship = location.pathname === "/mentorship";
+  const isConferences = location.pathname === "/conferences";
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,20 +31,27 @@ const NavBar = () => {
         setShow(true);
       }
 
+      if (isConferences) {
+        setPastHero(currentScroll > window.innerHeight * 0.4);
+      }
+
       lastScroll.current = currentScroll;
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isConferences]);
 
   useEffect(() => {
-    if (!isHome) {
-      setPastHero(true); // always dark on non-home pages
+    if (!isHome && !isMentorship && !isConferences) {
+      setPastHero(true);
       return;
     }
 
-    const hero = document.querySelector(".hero");
+    if (isConferences) return;
+
+    const heroSelector = isHome ? ".hero" : ".mentorship-hero";
+    const hero = document.querySelector(heroSelector);
     if (!hero) return;
 
     const observer = new IntersectionObserver(
@@ -54,7 +63,7 @@ const NavBar = () => {
 
     observer.observe(hero);
     return () => observer.disconnect();
-  }, [isHome]); 
+  }, [isHome, isMentorship, isConferences]);
 
   return (
     <nav className={`navbar ${show ? "nav-show" : "nav-hide"} ${pastHero ? "navbar--dark" : ""}`}>
@@ -88,7 +97,7 @@ const NavBar = () => {
         {/* Socials */}
         <div className="socials">
           <li>
-            <a href="https://linkedin.com/" target="_blank" rel="noreferrer" className="sye-social-icon">
+            <a href="https://www.linkedin.com/company/syelabs/" target="_blank" rel="noreferrer" className="sye-social-icon">
               <img src="/linkedin.png" alt="LinkedIn" className="social-icon-img" />
             </a>
           </li>

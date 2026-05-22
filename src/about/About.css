@@ -203,7 +203,7 @@
 
 .team-bio {
   font-family: 'Saans', sans-serif;
-  font-size: 0.88rem;
+  font-size: 1rem;
   line-height: 1.65;
   color: rgba(59, 31, 16, 0.55);
   margin: 0;
@@ -363,7 +363,7 @@
 
 .tl-beat-body {
     font-family: 'Saans', sans-serif;
-  font-size: 16px;
+  font-size: 1.2rem;
   color: #8a6a55;
   line-height: 1.8;
   max-width: 580px;

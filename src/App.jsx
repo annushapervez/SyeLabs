@@ -13,6 +13,8 @@ import About from './about/About'
 import Lenis from "@studio-freight/lenis"
 import PageTransitionLayout from './layouts/PageTransitionLayout'
 import Reveal from "./components/Reveal"
+import Mentorship from './mentorship/Mentorship'
+import Conferences from './conferences/Conferences'
 
 function AnimatedRoutes({ lenisRef }) {
   const location = useLocation()
@@ -46,6 +48,9 @@ return (
           }
         />
         <Route path="/about" element={<About />} />
+        <Route path="/mentorship" element={<Mentorship />} />
+        <Route path="/conferences" element={<Conferences />} />
+
       </Routes>
     </div>
 )
