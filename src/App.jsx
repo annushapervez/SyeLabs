@@ -15,6 +15,7 @@ import PageTransitionLayout from './layouts/PageTransitionLayout'
 import Reveal from "./components/Reveal"
 import Mentorship from './mentorship/Mentorship'
 import Conferences from './conferences/Conferences'
+import Homelabs from './homelabs/Homelabs'
 
 function AnimatedRoutes({ lenisRef }) {
   const location = useLocation()
@@ -50,6 +51,7 @@ return (
         <Route path="/about" element={<About />} />
         <Route path="/mentorship" element={<Mentorship />} />
         <Route path="/conferences" element={<Conferences />} />
+        <Route path="/homelabs" element={<Homelabs />} />
 
       </Routes>
     </div>

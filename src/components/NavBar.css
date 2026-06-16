@@ -148,13 +148,10 @@
   opacity: 1;
 }
 
-.navbar--dark{
-    /* Glass base */
-    -webkit-backdrop-filter: blur(18px);
+.navbar--dark.navbar--scrolled {
+  -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
   background: rgba(255, 255, 255, 0.06);
-
-  /* THIS removes the harsh edge */
   -webkit-mask-image: linear-gradient(
     to bottom,
     black 65%,

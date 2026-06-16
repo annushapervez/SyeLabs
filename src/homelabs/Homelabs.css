@@ -1,0 +1,165 @@
+.homelabs {
+  min-height: 100vh;
+}
+
+.homelabs-hero {
+  background: linear-gradient(
+    to bottom,
+    #1e0602 0%,
+    #2e0e05 10%,
+    #45180c 22%,
+    #612a14 36%,
+    #8a4428 52%,
+    #b36840 66%,
+    #d0926a 78%,
+    #e8c4a8 88%,
+    #f5e2d2 94%,
+    #ffffff 100%
+
+
+  );
+
+  position: relative;
+  min-height: 100vh;
+  padding: 0 56px;
+}
+
+.homelabs-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("https://www.transparenttextures.com/patterns/noise.png");
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+}
+
+.homelabs-headline {
+  position: absolute;
+  top: 22vh;
+  left: 56px;
+  right: 56px;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 400;
+  line-height: 1.1;
+  max-width: 1100px;
+  color: var(--sand);
+}
+
+/* ── Grid Section ── */
+.homelabs-grid-section {
+  padding: 100px 56px 120px;
+}
+
+.homelabs-tabs {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.homelabs-tab-dash {
+  font-family: 'Saans', sans-serif;
+  font-size: 1rem;
+  color: rgba(59, 31, 16, 0.25);
+}
+
+.homelabs-tab {
+  font-family: 'Saans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: rgba(59, 31, 16, 0.35);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.homelabs-tab:hover {
+  color: var(--brown);
+}
+
+.homelabs-tab--active {
+  color: var(--brown);
+  font-weight: 500;
+}
+
+.homelabs-tab-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(59, 31, 16, 0.08);
+  margin: 24px 0 48px;
+}
+
+.homelabs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.lab-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lab-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 3.8;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+.lab-card-media img,
+.lab-card-media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.lab-card-tag-overlay {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+}
+
+.lab-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lab-card-tag {
+  font-family: 'Saans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.15);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-radius: 999px;
+  padding: 6px 14px;
+  align-self: flex-start;
+}
+
+.lab-card-title-wrapper {
+  position: relative;
+  min-height: 3.2em;
+  padding-bottom: 20px;
+}
+
+.lab-card-title {
+  font-family: 'Saans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--brown);
+  margin: 0;
+  line-height: 1.3;
+}
