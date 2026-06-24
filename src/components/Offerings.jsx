@@ -29,6 +29,8 @@ const offerings = [
     hoverColor: "#fbf9eb",
     video: "homelabs.mp4",
     visualBg: "#1a1208",
+    link: "/homelabs",
+
   },
 ];
 

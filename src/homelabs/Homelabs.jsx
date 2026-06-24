@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
 import "./Homelabs.css";
 
@@ -37,46 +37,75 @@ function StaggeredFade({ text }) {
   );
 }
 
-const TABS = ["All", "Networking", "Cloud", "Security", "Hardware", "Linux"];
+const galleryScenes = [
+  { image: "/kitchen.jpg",   scene: "A busy kitchen line",  concept: "Pipelines & queues" },
+    { image: "/stadium.jpg",   scene: "A sold-out stadium",   concept: "Load balancing" },
+  { image: "/subway.jpg",    scene: "The subway map",       concept: "Graph traversal" },
+   { image: "/traffic.jpg",   scene: "Rush-hour traffic",    concept: "Routing & scheduling" },
+       { image: "/golf.jpg",      scene: "A golf course at dawn", concept: "Distributed systems" },
+  { image: "/kitchen.jpg",   scene: "A busy kitchen line",  concept: "Pipelines & queues" },
+];
+
+function ScrollGallery({ scenes = galleryScenes }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const x = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
+
+  return (
+    <section ref={ref} className="scroll-gallery">
+
+      <motion.div className="scroll-gallery-track" style={{ x }}>
+        {scenes.map((s, i) => (
+          <figure className="scroll-gallery-item" key={i}>
+            <img src={s.image} alt={s.scene} />
+            <figcaption className="scroll-gallery-caption">
+              <span className="scroll-gallery-scene">{s.scene}</span>
+              <span className="scroll-gallery-concept">{s.concept}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </motion.div>
+    </section>
+  );
+}
+
+const labHighlight = {
+  title: "How It's All Connected",
+  author: "SyeLabs Team",
+  tags: ["Series", "Coming Soon"],
+  body: "A new video series launching soon! Where everyday experiences become lessons in tech. From football stadiums to golf courses, we're finding distributed systems, load balancing, and engineering principles hiding in plain sight. The world is built on the same ideas we build with!",
+  image: "/linkedin3.png",
+};
+const TABS = ["All","Architecture of Homelab","OpenShift","AI Basics", "Tools"];
 
 const labItems = [
   {
-    title: "Building Your First Home Lab",
-    hoverTitle: "Everything you need to get started — hardware picks, network layout, and the mistakes worth avoiding from day one.",
-    category: "Hardware",
-    video: "/homelabs.mp4",
+    title: "KubeVirt for VMs",
+    hoverTitle: "VMs don't have to live outside the Kubernetes ship. See how KubeVirt brings them aboard — no conversion needed.",
+    category: "OpenShift",
+    image: "/kube.png",
+    comingSoon: true,
+  },
+    {
+    title: "What is Data?",
+    hoverTitle: "Data is the foundation AI builds on. We unpack what data is, what makes it useful, and why accuracy is the difference between intelligence and noise.",
+    category: "AI Basics",
+    image: "/data.png",
+    comingSoon: true,
   },
   {
-    title: "VLAN Segmentation from Scratch",
-    hoverTitle: "Isolate your IoT devices, guests, and servers without buying enterprise gear. A practical walk through the setup.",
-    category: "Networking",
-    video: "/linkedin2.mp4",
-  },
-  {
-    title: "Running Kubernetes on Bare Metal",
-    hoverTitle: "Skip the cloud bill. Here's how to spin up a real Kubernetes cluster on old hardware sitting in your closet.",
-    category: "Cloud",
-    video: "/linkedin4.mp4",
-  },
-  {
-    title: "Firewall & Intrusion Detection at Home",
-    hoverTitle: "Set up pfSense and Suricata to monitor your home network traffic like a real SOC analyst.",
-    category: "Security",
-    image: "/robot.png",
-  },
-  {
-    title: "Linux From Scratch: A Beginner's Guide",
-    hoverTitle: "Build a working Linux system from the ground up. Slow, painful, and absolutely worth it.",
-    category: "Linux",
-    image: "/post1.png",
-  },
-  {
-    title: "Rack Setup & Cable Management",
-    hoverTitle: "Because a clean rack is a happy rack. Our approach to building a home server setup that doesn't look like chaos.",
-    category: "Hardware",
-    image: "/post2.png",
+    title: "ISO Install Tutorial",
+    hoverTitle: "Turn a USB drive into a bootable hypervisor installer. a step-by-step walkthrough covering architecture choices, USB prep, and getting your server to boot.",
+    category: "Architecture of Homelab",
+    image: "/iso.png",
+    comingSoon: true,
   },
 ];
+
+
 
 function LabCard({ item }) {
   const ref = useRef(null);
@@ -121,6 +150,9 @@ function LabCard({ item }) {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
+              {item.comingSoon && (
+                <span className="lab-card-tag-coming-soon">Coming Soon</span>
+              )}
               <span className="lab-card-tag">{item.category}</span>
             </motion.div>
           )}
@@ -143,6 +175,35 @@ function LabCard({ item }) {
           </AnimatePresence>
         </div>
       </div>
+    </motion.div>
+  );
+}
+
+function LabPostCard({ post }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, amount: 0.25 });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="lab-post-card"
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <h2 className="lab-post-card-title">{post.title}</h2>
+      <p className="lab-post-card-author">by {post.author}</p>
+      <div className="lab-post-card-tags">
+        {post.tags.map((tag) => (
+          <span
+            key={tag}
+            className={tag === "Coming Soon" ? "lab-post-tag-coming-soon" : "lab-post-tag"}
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+      <p className="lab-post-card-body">{post.body}</p>
     </motion.div>
   );
 }
@@ -189,6 +250,119 @@ function LabGrid() {
           ))}
         </AnimatePresence>
       </div>
+
+      <div className="homelabs-load-more">
+        <span className="homelabs-load-more-label">Load More</span>
+      </div>
+    </section>
+  );
+}
+
+function LabNewsletter() {
+  const [email, setEmail] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setEmail("");
+  };
+
+  return (
+    <section className="lab-newsletter-section">
+      <div className="lab-newsletter-card">
+        <div className="lab-newsletter-left">
+          <h2 className="lab-newsletter-title">Get dispatches from the lab</h2>
+          <p className="lab-newsletter-sub">Every month, we share what we're building, breaking, and learning. Sign up if you dare.</p>
+          <form className="lab-newsletter-form" onSubmit={handleSubmit}>
+            <input
+              className="lab-newsletter-input"
+              type="email"
+              placeholder="yourname@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <button className="lab-newsletter-btn" type="submit">Sign me up</button>
+          </form>
+          <p className="lab-newsletter-disclaimer">We'll never share your details. By signing up, you agree to receive communications from SyeLabs.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LabClosingLines({ lines, className }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+
+  const variants = {
+    hidden: { opacity: 0 },
+    show: (i) => ({
+      opacity: 1,
+      transition: { delay: i * 0.08, duration: 0.4 },
+    }),
+  };
+
+  let wordIndex = 0;
+
+  return (
+    <motion.h1
+      ref={ref}
+      className={className}
+      initial="hidden"
+      animate={isInView ? "show" : "hidden"}
+    >
+      {lines.map((line, lineIdx) => (
+        <span key={lineIdx} className={`lab-closing-line-${lineIdx + 1}`} style={{ display: "inline" }}>
+          {line.split(" ").map((word) => {
+            const i = wordIndex++;
+            return (
+              <motion.span
+                key={i}
+                custom={i}
+                variants={variants}
+                style={{ display: "inline-block", marginRight: "0.25em" }}
+              >
+                {word}
+              </motion.span>
+            );
+          })}
+          {lineIdx < lines.length - 1}
+        </span>
+      ))}
+    </motion.h1>
+  );
+}
+
+function HomelabsClosing() {
+  const closingZoneRef = useRef(null);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const zone = closingZoneRef.current;
+      if (!zone) return;
+      const scrolled = -zone.getBoundingClientRect().top;
+      setIsDark(Math.max(0, scrolled - 100) > 100);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <section className="lab-closing">
+      <div className="lab-closing-zone" ref={closingZoneRef}>
+        <div className="lab-closing-sticky">
+          <div className="lab-closing-phrase">
+            <LabClosingLines
+              className={isDark ? "lab-closing-text light-text" : "lab-closing-text dark-text"}
+              lines={["We believe technology should be understood, not just used.",
+                 "Whether you're building your first homelab or exploring complex architectures, every experiment is another opportunity to see how it's all connected."]}
+  
+              
+            />
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
@@ -199,7 +373,13 @@ export default function Homelabs() {
       <section className="homelabs-hero">
         <StaggeredFade text="Build, break, and learn in spaces of your own. Where curiosity becomes experience, one experiment at a time." />
       </section>
+      <ScrollGallery />
+      <section className="lab-highlight-section">
+        <LabPostCard post={labHighlight} />
+      </section>
       <LabGrid />
+      <LabNewsletter />
+      <HomelabsClosing />
       <Footer />
     </main>
   );
