@@ -2,11 +2,11 @@
 .about {
   min-height: 100vh;
   
-  
+
+
 }
 :root {
   --page-margin: 56px;
-  --content-width: 460px;
   --gutter: 80px;
   --timeline-line: 1px;
 }
@@ -366,7 +366,7 @@
   font-size: 1.2rem;
   color: #8a6a55;
   line-height: 1.8;
-  max-width: 580px;
+  max-width: 470px;
 }
 
 /* Close */
@@ -449,18 +449,19 @@
 .timeline-svg-wrapper {
   position: relative;
   margin: 40px auto;
-
-
+  overflow-x: hidden; /* safety clip */
 }
+
 
 .timeline-svg {
   position: absolute;
   left: 28%;
   top: 0;
-  width: 1060px;   
+  width: min(72vw, 80vw); /* was: width: 1060px */
   height: auto;  
   margin-top: 57vh;
   opacity: 0.9;
+
 }
 
 
@@ -471,22 +472,26 @@
 .timeline-content {
   position: relative;
   left: var(--page-margin);
-  width: var(--content-width);
+  width: calc(50% - var(--page-margin) - var(--gutter) / 2);
+  max-width: 560px; /* optional ceiling on huge monitors */
 }
+
 
 .timeline-beat:nth-child(even) .timeline-content {
-  left: calc(
-    var(--page-margin) +
-    var(--content-width) +
-    var(--gutter) +
-    100px /* spacing from line */
-  );
+  left: calc(50% + var(--gutter) / 2);
+  width: calc(50% - var(--page-margin) - var(--gutter) / 2);
+  max-width: 560px;
 }
-
-
 .timeline-svg {
 filter: invert(85%) sepia(19%) saturate(272%) hue-rotate(353deg) brightness(98%) contrast(94%);}
-
+ @media (max-width: 768px) {
+  .timeline-content,
+  .timeline-beat:nth-child(even) .timeline-content {
+    left: var(--page-margin);
+    width: calc(100% - var(--page-margin) * 2);
+    max-width: none;
+  }
+}
 /* ── Closing ── */
 .about-closing-zone {
   height: 200vh;
@@ -534,10 +539,10 @@ filter: invert(85%) sepia(19%) saturate(272%) hue-rotate(353deg) brightness(98%)
 
 .about-closing-phrase h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 400;
   line-height: 1.1;
-  max-width: 1100px;
+  max-width: 1200px;
 }
 
 .about-closing-phrase h1 span {

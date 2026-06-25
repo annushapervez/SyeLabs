@@ -470,6 +470,15 @@
   max-width: 300px;
 }
 
+.lab-newsletter-message {
+  font-family: 'Saans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: rgba(59, 31, 16, 0.55);
+  margin: 0;
+  line-height: 1.5;
+}
+
 /* ── Closing Section ── */
 .lab-closing {
   position: relative;
@@ -521,10 +530,10 @@
 
 .lab-closing-text {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 400;
   line-height: 1.1;
-  max-width: 1200px;
+  max-width: 1300px;
 }
 
 .lab-closing-line-1 { opacity: 1; }

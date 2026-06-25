@@ -443,10 +443,10 @@ font-family: 'Playfair Display', serif;
 
 .mentorship-closing-phrase h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 5vw, 3.5rem);
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
   font-weight: 400;
   line-height: 1.1;
-  max-width: 1150px;
+  max-width: 1250px;
 }
 
 

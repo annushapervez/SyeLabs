@@ -260,10 +260,34 @@ function LabGrid() {
 
 function LabNewsletter() {
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | submitting | success | error
 
-  const handleSubmit = (e) => {
+  const KIT_FORM_ID = "9611773";
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setEmail("");
+    if (status === "submitting") return;
+    setStatus("submitting");
+
+    try {
+      const formData = new FormData();
+      formData.append("email_address", email);
+
+      const res = await fetch(
+        `https://app.kit.com/forms/${KIT_FORM_ID}/subscriptions`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!res.ok) throw new Error("Subscribe failed");
+
+      setStatus("success");
+      setEmail("");
+    } catch (err) {
+      setStatus("error");
+    }
   };
 
   return (
@@ -271,7 +295,9 @@ function LabNewsletter() {
       <div className="lab-newsletter-card">
         <div className="lab-newsletter-left">
           <h2 className="lab-newsletter-title">Get dispatches from the lab</h2>
-          <p className="lab-newsletter-sub">Every month, we share what we're building, breaking, and learning. Sign up if you dare.</p>
+          <p className="lab-newsletter-sub">
+            Every month, we share what we're building, breaking, and learning. Sign up if you dare.
+          </p>
           <form className="lab-newsletter-form" onSubmit={handleSubmit}>
             <input
               className="lab-newsletter-input"
@@ -279,11 +305,31 @@ function LabNewsletter() {
               placeholder="yourname@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={status === "submitting" || status === "success"}
               required
             />
-            <button className="lab-newsletter-btn" type="submit">Sign me up</button>
+            <button
+              className="lab-newsletter-btn"
+              type="submit"
+              disabled={status === "submitting" || status === "success"}
+            >
+              {status === "submitting"
+                ? "Signing up..."
+                : status === "success"
+                ? "You're in"
+                : "Sign me up"}
+            </button>
           </form>
-          <p className="lab-newsletter-disclaimer">We'll never share your details. By signing up, you agree to receive communications from SyeLabs.</p>
+
+          {status === "error" && (
+            <p className="lab-newsletter-message">
+              Something went wrong. Try again?
+            </p>
+          )}
+
+          <p className="lab-newsletter-disclaimer">
+            We'll never share your details. By signing up, you agree to receive communications from SyeLabs.
+          </p>
         </div>
       </div>
     </section>

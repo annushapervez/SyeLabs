@@ -5,7 +5,7 @@ const Footer = () => {
   const LINKS = [
     { label: "LinkedIn", href: "https://www.linkedin.com/company/syelabs/" },
     { label: "About", to: "/about" },
-    { label: "Contact", to: "/contact" },
+    { label: "Contact", href: "mailto:syelabs.thrivetogether@gmail.com" },
   ];
 
   return (

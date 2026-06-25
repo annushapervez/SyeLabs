@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import MobileNavBar from "./MobileNavBar";
 import './NavBar.css';
 
 const NavBar = () => {
@@ -7,6 +8,9 @@ const NavBar = () => {
   const [show, setShow] = useState(true);
   const [pastHero, setPastHero] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth <= 900 : false
+  );
   const lastScroll = useRef(0);
 
   const NAV_LINKS = [
@@ -22,25 +26,24 @@ const NavBar = () => {
   const isConferences = location.pathname === "/conferences";
   const isHomelabs = location.pathname === "/homelabs";
 
+  // Track viewport size
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 900);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-
-      if (currentScroll > lastScroll.current) {
-        setShow(false);
-      } else {
-        setShow(true);
-      }
-
+      if (currentScroll > lastScroll.current) setShow(false);
+      else setShow(true);
       setScrolled(currentScroll > 80);
-
       if (isConferences) {
         setPastHero(currentScroll > window.innerHeight * 0.4);
       }
-
       lastScroll.current = currentScroll;
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isConferences]);
@@ -50,12 +53,10 @@ const NavBar = () => {
       setPastHero(true);
       return;
     }
-
     if (isConferences) {
       setPastHero(false);
       return;
     }
-
     const heroSelector = isHome
       ? ".hero"
       : isMentorship
@@ -63,22 +64,22 @@ const NavBar = () => {
       : ".homelabs-hero";
     const hero = document.querySelector(heroSelector);
     if (!hero) return;
-
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setPastHero(!entry.isIntersecting);
-      },
+      ([entry]) => setPastHero(!entry.isIntersecting),
       { threshold: 0.1 }
     );
-
     observer.observe(hero);
     return () => observer.disconnect();
   }, [isHome, isMentorship, isConferences, isHomelabs]);
 
+  // Render mobile navbar on small screens
+  if (isMobile) {
+    return <MobileNavBar navLinks={NAV_LINKS} pastHero={pastHero} show={show} />;
+  }
+
+  // Desktop navbar
   return (
     <nav className={`navbar ${show ? "nav-show" : "nav-hide"} ${pastHero ? "navbar--dark" : ""} ${scrolled ? "navbar--scrolled" : ""}`}>
-      
-      {/* Logo */}
       <Link to="/" className="sye-logo">
         SYELABS
         <div className="sye-logo-dots">
@@ -87,7 +88,6 @@ const NavBar = () => {
         </div>
       </Link>
 
-      {/* Links */}
       <ul className="sye-links">
         {NAV_LINKS.map((link) => (
           <li key={link.label}>
@@ -101,10 +101,7 @@ const NavBar = () => {
             </Link>
           </li>
         ))}
-
         <div className="sye-divider" />
-
-        {/* Socials */}
         <div className="socials">
           <li>
             <a href="https://www.linkedin.com/company/syelabs/" target="_blank" rel="noreferrer" className="sye-social-icon">
