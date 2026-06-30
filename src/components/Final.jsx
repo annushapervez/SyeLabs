@@ -27,7 +27,6 @@ function StaggeredLines({ lines, className }) {
         <span
           key={lineIdx}
           className={`line-${lineIdx + 1}`}
-          style={{ display: "inline" }} // 👈 IMPORTANT
         >
           {line.split(" ").map((word) => {
             const i = wordIndex++;

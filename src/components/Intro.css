@@ -45,7 +45,7 @@
   flex: 0 0 calc((100% - 40px) / 3.7);
   scroll-snap-align: start;
   min-height: 550px;
-  border: 1px solid rgba(59, 31, 16, 0.12);
+  border: none;
   border-radius: 18px;
   padding: 24px 28px 24px;
   display: flex;
@@ -164,10 +164,32 @@
 
 @media (max-width: 768px) {
   .intro {
-    padding: 40px 24px 60px;
+    padding: 40px 32px 60px;
+  }
+
+  .intro-cards-wrapper {
+    margin-left: -24px;
+    margin-right: -24px;
+  }
+
+  .intro-cards {
+    padding-left: 24px;
+    padding-right: 24px;
+    scroll-padding-left: 24px;
   }
 
   .intro-card {
-    flex: 0 0 80vw;
+    flex: 0 0 65vw;
+    min-height: 500px;
+    padding: 5px 22px 16px;
+  }
+
+  .intro-cards-wrapper::after {
+    width: 48px;
+  }
+
+  .intro-headline {
+    font-size: 1.7rem;
+    margin-top: 32px;
   }
 }

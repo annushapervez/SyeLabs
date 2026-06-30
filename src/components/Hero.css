@@ -164,8 +164,10 @@
   display: inline-block;
 }
 @media (max-width: 768px) {
-  .hero-sticky { padding: 0 24px; }
-  .hero-phrase { left: 24px; right: 24px; }
-  .hero-progress { left: 24px; }
+  .hero-sticky { padding: 0 32px; }
+  .hero-phrase { left: 32px; right: 32px; top: 15vh; }
+  .hero-progress { left: 32px; }
+  .hero-btn { bottom: 50px; left: 32px; }
+
 }
 

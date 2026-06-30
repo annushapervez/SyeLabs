@@ -145,10 +145,44 @@ body {
 @media (max-width: 768px) {
   .offering {
     grid-template-columns: 1fr;
-    padding: 40px 24px;
+    padding: 48px 32px;
     min-height: auto;
-    gap: 32px;
+    gap: 8px;
+    border-top: none;
+    position: relative;
+    
   }
-  .offering-left { padding-right: 0; }
-  .offering-right { aspect-ratio: 4 / 3; }
+  .offering::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 32px;
+    right: 32px;
+    height: 1px;
+    background: rgba(59, 31, 16, 0.1);
+  }
+  .offerings-header {
+    margin: 60px 32px 24px;
+  }
+  .offerings-headline {
+    font-size: 1.7rem;
+    text-align: left;
+  }
+  .offering-left { padding-right: 0; order: 2; }
+  .offering-right { aspect-ratio: 5 / 3; order: 1; margin-top: 0; margin-bottom: 0; }
+  .offering-tags { margin-top: 16px; }
+  .offering-tag { font-weight: 500; font-size: 0.75rem; }
+  .offerings {
+    border-bottom: none;
+    position: relative;
+  }
+  .offerings::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 32px;
+    right: 32px;
+    height: 1px;
+    background: rgba(59, 31, 16, 0.1);
+  }
 }
