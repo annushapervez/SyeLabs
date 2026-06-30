@@ -113,7 +113,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-size: clamp(2.2rem, 5vw, 4rem);
   font-weight: 600;
   font-style: normal;
   color: var(--cream);
@@ -166,6 +166,7 @@ body {
   }
   .offerings-headline {
     font-size: 1.7rem;
+        font-weight: 500;
     text-align: left;
   }
   .offering-left { padding-right: 0; order: 2; }

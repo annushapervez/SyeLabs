@@ -55,7 +55,8 @@
 @media (max-width: 768px) {
   .final-sticky { padding: 0 32px; }
   .final-phrase { left: 32px; right: 32px; top: 12vh; }
-  .final-phrase h1 { font-size: 2.2rem; transform: translateY(40px); }
+  .final-phrase h1 { font-size: 2.2rem; transform: translateY(40px);    font-weight: 500;
+}
   .line-2 { display: block;  }
 }
 
