@@ -61,7 +61,7 @@
   right: 56px;
   z-index: 3;
   font-family: "Playfair Display", serif;
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-size:  3.8rem;
   font-weight: 400;
   line-height: 1.1;
   max-width: 1100px;
@@ -124,7 +124,7 @@
 
 .post-card-title {
 font-family: 'Playfair Display', serif;
-  font-size: clamp(1.6rem, 2.5vw, 1.9rem);
+  font-size: 1.9rem;
   font-weight: 400;
   color: var(--brown);
   margin: 0;
@@ -465,28 +465,103 @@ font-family: 'Playfair Display', serif;
   color: #f7f3ee ;
   transition: color 0.4s ease;
 }
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .post-card {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 22px;
+    height: auto;
   }
 
   .post-card-image {
     order: -1;
   }
 
+  .post-card-title {
+    font-size: 1.4rem;
+  }
+
+    .post-card-author {
+    font-size: 1.3rem;
+
+  }
+
+
+  .post-card-left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-card-body {
+    order: 2;
+    opacity: 1;
+    max-height: none;
+    transform: none;
+    font-size: 1rem;
+  }
+
+  .post-card-tags {
+    order: 3;
+  }
+
+  .post-card-tags .post-tag:nth-child(n+3) {
+    display: none;
+  }
+
+  .mentorship-workshops-heading {
+    font-size: 1.7rem;
+  }
+
+  .mentorship-workshop-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .mentorship-workshop-feature-visual {
+    order: -1;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+
+  .mentorship-workshop-feature-copy p {
+    color: #1a0a04;
+  }
+
+  .mentorship-workshop-feature-copy p:nth-child(2) {
+    display: none;
+  }
+
   .mentorship-posts {
     margin-top: -90px;
-    padding: 150px 24px 80px;
+    padding: 100px 32px 80px;
   }
 
   .mentorship-hero {
-    min-height: 82vh;
-    padding: 0 24px;
+    min-height: 62vh;
+    padding: 0 32px;
   }
 
   .mentorship-headline {
-    left: 24px;
-    right: 24px;
+    left: 32px;
+    right: 32px;
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    top: 15vh;
+  }
+  
+  .mentorship-workshop-tags.mobile {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .mentorship-workshops {
+    padding: 0 32px 80px;
+  }
+
+  .mentorship-workshop-tags.mobile .workshop-tag-card {
+    height: 150px;
+    border-radius: 22px;
+  }
+
+  .mentorship-workshop-tags.mobile .workshop-tag-card span {
+    font-size: 1.05rem;
   }
 }

@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from "react";
-import { color, motion, useInView } from "framer-motion";
+import { color, motion, useInView, AnimatePresence } from "framer-motion";
 import Footer from "../components/Footer";
 import "./Mentorship.css";
 
@@ -76,9 +76,45 @@ function StaggeredFade({ text }) {
   );
 }
 
+const WORKSHOP_TAGS = [
+  "Demystifying AI",
+  "AI + Coding",
+  "Technical Confidence",
+  "Career Exploration",
+  "Student Workshops",
+  "Conference Sessions",
+];
+
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.innerWidth <= breakpoint
+  );
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= breakpoint);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [breakpoint]);
+  return isMobile;
+}
 function WorkshopSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const isMobile = useIsMobile();
+
+  const pairs = [];
+  for (let i = 0; i < WORKSHOP_TAGS.length; i += 2) {
+    pairs.push(WORKSHOP_TAGS.slice(i, i + 2));
+  }
+
+  const [pairIndex, setPairIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const id = setInterval(() => {
+      setPairIndex((p) => (p + 1) % pairs.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, [isMobile, pairs.length]);
 
   return (
     <motion.section
@@ -92,32 +128,51 @@ function WorkshopSection() {
         We bring conversations, and hands-on learning into classrooms, communities, and conferences.
       </h2>
 
-      <div className="mentorship-workshop-tags">
-        <div className="workshop-tag-card"><span>Demystifying AI</span></div>
-        <div className="workshop-tag-card"><span>AI + Coding</span></div>
-        <div className="workshop-tag-card"><span>Technical Confidence</span></div>
-        <div className="workshop-tag-card"><span>Career Exploration</span></div>
-        <div className="workshop-tag-card"><span>Student Workshops</span></div>
-        <div className="workshop-tag-card"><span>Conference Sessions</span></div>
-      </div>
+      {isMobile ? (
+        <div className="mentorship-workshop-tags mobile">
+          {pairs[pairIndex].map((tag, idx) => (
+            <div className="workshop-tag-card" key={idx}>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={tag}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {tag}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mentorship-workshop-tags">
+          {WORKSHOP_TAGS.map((tag) => (
+            <div className="workshop-tag-card" key={tag}>
+              <span>{tag}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="mentorship-workshop-feature">
         <div className="mentorship-workshop-feature-copy">
           <p>
-     Our workshops break down complex tech topics into sessions that feel approachable,
-      practical, and engaging, especially for students and emerging technologists.
+            Our workshops break down complex tech topics into sessions that feel approachable,
+            practical, and engaging, especially for students and emerging technologists.
           </p>
           <p>
-             From explaining how AI actually uses data, to helping students articulate their technical accomplishments
-      with confidence,  we focus on making tech easier to understand
-  and less intimidating to explore.
+            From explaining how AI actually uses data, to helping students articulate their technical accomplishments
+            with confidence, we focus on making tech easier to understand
+            and less intimidating to explore.
           </p>
           <div className="workshop-feature-footer">
             <span>
               Interested in bringing a workshop to your school,
               organization, or event?
             </span>
-<a href="mailto:hello@syelabs.com" style={{ color: "#C1714F" }}>Reach out</a>
+            <a href="mailto:hello@syelabs.com" style={{ color: "#C1714F" }}>Reach out</a>
           </div>
         </div>
 

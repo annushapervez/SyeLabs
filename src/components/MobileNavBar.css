@@ -28,9 +28,9 @@
 /* Logo */
 .mobile-nav-logo {
   font-family: 'Urbanist', sans-serif;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: var(--cream);
   display: flex;
   align-items: center;
