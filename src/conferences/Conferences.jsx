@@ -181,21 +181,24 @@ function GridCard({ item, i }) {
         )}
       </div>
       <div className="conference-card-info">
-<div className="conference-card-title-wrapper">
-  <AnimatePresence mode="sync">
-    <motion.p
-      key={hovered && item.hoverTitle ? "hover" : "default"}
-      className="conference-card-title"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
-      style={{ position: "absolute", top: 0, left: 0 }}
-    >
-      {hovered && item.hoverTitle ? item.hoverTitle : item.title}
-    </motion.p>
-  </AnimatePresence>
-</div>
+        <div className="conference-card-title-wrapper">
+          <AnimatePresence mode="sync">
+            <motion.p
+              key={hovered && item.hoverTitle ? "hover" : "default"}
+              className="conference-card-title"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              style={{ position: "absolute", top: 0, left: 0 }}
+            >
+              {hovered && item.hoverTitle ? item.hoverTitle : item.title}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+        {item.hoverTitle && (
+          <p className="conference-card-mobile-desc">{item.hoverTitle}</p>
+        )}
       </div>
     </motion.div>
   );

@@ -266,6 +266,15 @@
   margin: 0;
 }
 
+.conference-card-mobile-desc {
+  display: none;
+  font-family: 'Saans', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(59, 31, 16, 0.55);
+}
+
 /* ── Post Card ── */
 .conf-post-card {
   display: grid;
@@ -468,4 +477,150 @@
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(59, 31, 16, 0.15);
+}
+
+@media (max-width: 768px) {
+  .conferences-hero {
+    min-height: 62vh;
+    padding: 0 32px;
+  }
+
+  .conferences-headline {
+    left: 32px;
+    right: 32px;
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+
+  .upcoming-conf {
+    padding: 48px 32px 48px;
+  }
+
+  .upcoming-conf .conferences-grid-title {
+    font-size: 1.7rem;
+    margin-bottom: 24px;
+  }
+
+  .conferences-grid-section {
+    padding: 60px 32px 80px;
+  }
+
+  .conferences-grid-section .conferences-grid-title {
+    font-size: 1.7rem;
+  }
+
+  .conferences-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .conference-card-mobile-desc {
+    display: block;
+  }
+
+  .upcoming-conf::after {
+    left: 32px;
+    right: 32px;
+  }
+
+  .upcoming-conf-body {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .upcoming-conf-title {
+    font-size: 1.5rem;
+  }
+
+  .upcoming-conf-text {
+    font-size: 1rem;
+  }
+
+  .upcoming-conf-meta {
+    gap: 24px;
+  }
+
+  .highlight-floating-preview {
+    display: none;
+  }
+
+  .conf-post-card {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    height: auto;
+  }
+
+  .conf-post-card-image {
+    order: -1;
+  }
+
+  .post-card-title {
+    font-size: 1.7rem;
+  }
+
+    .post-card-author {
+    font-size: 1.3rem;
+
+  }
+  .conf-post-card-left {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .conf-post-card-body {
+    order: 2;
+    opacity: 1;
+    max-height: none;
+    transform: none;
+    font-size: 1rem;
+  }
+
+  .conf-post-card-tags {
+    order: 3;
+  }
+
+  .conf-post-card-tags .conf-post-tag:nth-child(n+3) {
+    display: none;
+  }
+
+  .conference-card-title-wrapper {
+    min-height: auto;
+    margin-bottom: 0;
+  }
+
+  .conference-card-title {
+    position: relative;
+    inset: auto;
+        font-size: 1rem;
+
+  }
+
+  .conference-card-mobile-desc {
+    display: block;
+    margin-top: 20px;
+            font-size: 1rem;
+
+  }
+
+  .conf-closing-zone { height: 150vh; }
+  .conf-closing-sticky { padding: 0 32px; }
+  .conf-closing-phrase { left: 32px; right: 32px; top: 50%; transform: translateY(-50%); }
+  .conf-closing-text { font-size: 2.2rem; font-weight: 500; }
+}
+
+@media (max-width: 400px) {
+ .conference-card-title {
+    position: relative;
+    inset: auto;
+        font-size: .9rem;
+
+  }
+
+
+
+ .conference-card-mobile-desc {
+    display: block;
+    margin-top: 20px;
+        font-size: .9rem;
+
+  }
 }
