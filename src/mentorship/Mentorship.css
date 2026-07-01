@@ -337,6 +337,8 @@ font-family: 'Playfair Display', serif;
 .workshop-feature-footer {
   display: flex;
   justify-content: space-between;
+    font-family: 'Saans', sans-serif;
+
   align-items: flex-end;
   margin-top: auto;
   padding-top: 24px;
@@ -516,18 +518,25 @@ font-family: 'Playfair Display', serif;
   }
 
   .mentorship-workshop-feature-visual {
-    order: -1;
-    justify-content: flex-start;
-    align-items: flex-start;
+ display: none;
   }
 
 
   .mentorship-workshop-feature-copy p {
     color: #1a0a04;
+    margin-bottom: 8px;
   }
 
   .mentorship-workshop-feature-copy p:nth-child(2) {
     display: none;
+  }
+
+  .workshop-feature-footer span {
+    font-weight: 500;
+  }
+
+  .workshop-feature-footer a {
+    font-weight: 500;
   }
 
   .mentorship-posts {
@@ -563,5 +572,14 @@ font-family: 'Playfair Display', serif;
 
   .mentorship-workshop-tags.mobile .workshop-tag-card span {
     font-size: 1.05rem;
+    font-weight: 500;
+  color: var(--terracotta);
+  font-family: 'Saans', sans-serif;
   }
+
+  .mentorship-closing-sticky { padding: 0 32px; }
+  .mentorship-closing-phrase { left: 32px; right: 32px; top: 50%; transform: translateY(-40%); }
+  .mentorship-closing-phrase h1 { font-size: 2.2rem;  font-weight: 500; }
+
+
 }

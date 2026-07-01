@@ -135,10 +135,10 @@ function WorkshopSection() {
               <AnimatePresence mode="wait">
                 <motion.span
                   key={tag}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
                 >
                   {tag}
                 </motion.span>
@@ -167,6 +167,9 @@ function WorkshopSection() {
             with confidence, we focus on making tech easier to understand
             and less intimidating to explore.
           </p>
+          <div className="mentorship-workshop-feature-visual">
+            <img src="/robot.png" alt="robot" className="workshop-feature-img" />
+          </div>
           <div className="workshop-feature-footer">
             <span>
               Interested in bringing a workshop to your school,
@@ -174,10 +177,6 @@ function WorkshopSection() {
             </span>
             <a href="mailto:hello@syelabs.com" style={{ color: "#C1714F" }}>Reach out</a>
           </div>
-        </div>
-
-        <div className="mentorship-workshop-feature-visual">
-          <img src="/robot.png" alt="robot" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
         </div>
       </div>
     </motion.section>
