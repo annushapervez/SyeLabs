@@ -71,27 +71,31 @@ function ScrollGallery({ scenes = galleryScenes }) {
 
   return (
     <section ref={ref} className="scroll-gallery">
-      {isMobile ? (
-        <div className="scroll-gallery-track scroll-gallery-track--auto">
-          {doubled.map((s, i) => (
-            <figure className="scroll-gallery-item" key={i}>
-              <img src={s.image} alt={s.scene} />
-            </figure>
-          ))}
-        </div>
-      ) : (
-        <motion.div className="scroll-gallery-track" style={{ x }}>
-          {scenes.map((s, i) => (
-            <figure className="scroll-gallery-item" key={i}>
-              <img src={s.image} alt={s.scene} />
-              <figcaption className="scroll-gallery-caption">
-                <span className="scroll-gallery-scene">{s.scene}</span>
-                <span className="scroll-gallery-concept">{s.concept}</span>
-              </figcaption>
-            </figure>
-          ))}
-        </motion.div>
-      )}
+     {isMobile ? (
+  <div className="scroll-gallery-track scroll-gallery-track--auto">
+    {doubled.map((s, i) => (
+      <figure className="scroll-gallery-item" key={i}>
+        <img src={s.image} alt={s.scene} />
+        <figcaption className="scroll-gallery-caption">
+          <span className="scroll-gallery-scene">{s.scene}</span>
+          <span className="scroll-gallery-concept">{s.concept}</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+) : (
+  <motion.div className="scroll-gallery-track" style={{ x }}>
+    {scenes.map((s, i) => (
+      <figure className="scroll-gallery-item" key={i}>
+        <img src={s.image} alt={s.scene} />
+        <figcaption className="scroll-gallery-caption">
+          <span className="scroll-gallery-scene">{s.scene}</span>
+          <span className="scroll-gallery-concept">{s.concept}</span>
+        </figcaption>
+      </figure>
+    ))}
+  </motion.div>
+)}
     </section>
   );
 }
@@ -136,6 +140,7 @@ function LabCard({ item }) {
   const videoRef = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "0px 0px -60px 0px" });
   const [hovered, setHovered] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleMouseEnter = () => {
     setHovered(true);
@@ -156,8 +161,8 @@ function LabCard({ item }) {
       initial={{ opacity: 0, y: 24 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, ease: [0.25, 0, 0, 1] }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+     onMouseEnter={ isMobile ? undefined : handleMouseEnter}
+      onMouseLeave={isMobile ? undefined : handleMouseLeave}
     >
       <div className="lab-card-media">
         {item.video ? (

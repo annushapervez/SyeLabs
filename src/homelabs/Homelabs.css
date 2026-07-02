@@ -545,6 +545,19 @@
 }
 
 @media (max-width: 768px) {
+  .scroll-gallery-caption {
+    opacity: 1;
+    transform: translateY(0);
+    padding: 32px 14px 14px;
+  }
+  .scroll-gallery-scene {
+  font-size: 0.7rem;
+
+}
+
+.scroll-gallery-concept {
+  font-size: 1rem;
+}
   /* Hero */
   .homelabs-hero { min-height: 62vh; padding: 0 32px; }
   .homelabs-headline { left: 32px; right: 32px; font-size: clamp(2rem, 8vw, 2.8rem); top: 15vh; }
@@ -558,8 +571,9 @@
   .lab-post-card { height: auto; padding-top: 20px; }
   .lab-post-card-title { font-size: 1.4rem; }
   .lab-post-card-author { font-size: 1.3rem; }
-  .lab-post-card-body { order: 2; opacity: 1; max-height: none; transform: none; font-size: 1rem; }
+  .lab-post-card-body { order: 2; opacity: 1; max-height: none; transform: none; font-size: 1rem; transition: none; }
   .lab-post-card-tags { order: 3; }
+  .lab-post-card:hover .lab-post-card-body { max-height: none; opacity: 1; transform: none; }
 
   /* Grid section */
   .homelabs-grid-section { padding: 60px 32px 72px; }

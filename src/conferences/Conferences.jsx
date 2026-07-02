@@ -138,8 +138,8 @@ function PostCard({ post, i }) {
       animate={isInView ? "show" : "hidden"}
       transition={{ delay: i * 0.1 }}
       onClick={() => post.link && window.open(post.link, "_blank")}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={isTouch ? undefined : handleMouseEnter}
+      onMouseLeave={isTouch ? undefined : handleMouseLeave}
     >
       <div className="conf-post-card-left">
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -220,8 +220,8 @@ function GridCard({ item, i }) {
       initial="hidden"
       animate={isInView ? "show" : "hidden"}
       transition={{ delay: i * 0.1 }}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={isTouch ? undefined : handleMouseEnter}
+      onMouseLeave={isTouch ? undefined : handleMouseLeave}
       onClick={() => item.link && window.open(item.link, "_blank")}
       style={{ cursor: item.link ? "pointer" : "default" }}
     >

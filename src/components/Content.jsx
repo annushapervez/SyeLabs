@@ -104,8 +104,8 @@ function Card({ v, className = "" }) {
       ref={cardRef}
       className={`content-card ${className}`}
       onClick={() => v.link && window.open(v.link, "_blank")}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={isTouch ? undefined : handleMouseEnter}
+      onMouseLeave={isTouch ? undefined : handleMouseLeave}
     >
       <div className="content-thumb" style={{ background: v.bg }}>
 
