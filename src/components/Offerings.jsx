@@ -10,6 +10,7 @@ const offerings = [
     tags: ["Career guidance", "Industry access"],
     hoverColor: "#f2faff",
     video: "mentorship.mp4",
+    poster: "mentorship-poster.jpg",
     visualBg: "#5a4334",
     link: "/mentorship",
   },
@@ -19,6 +20,7 @@ const offerings = [
     tags: ["Networking", "Talks", "Workshops"],
     hoverColor: "#fcf7ff",
     video: "conferences.mp4",
+    poster: "conferences-poster.jpg",
     visualBg: "var(--rust)",
       link: "/conferences",
 
@@ -29,6 +31,7 @@ const offerings = [
     tags: ["Hands-on", "Self-paced", "Real tools"],
     hoverColor: "#fbf9eb",
     video: "homelabs.mp4",
+    poster: "homelabs-poster.jpg",
     visualBg: "#1a1208",
     link: "/homelabs",
 
@@ -95,7 +98,8 @@ function StaggeredBody({ text, className }) {
 // Touch devices: additionally forces `.play()` once the video scrolls into
 // view, since mobile browsers (esp. iOS Low Power Mode) often ignore the
 // bare autoPlay attribute and fall back to showing a play button.
-function OfferingVideo({ src }) {
+// `poster` covers the gap while the video is loading or blocked entirely.
+function OfferingVideo({ src, poster }) {
   const videoRef = useRef(null);
   const isTouch = useIsTouchDevice();
 
@@ -121,6 +125,7 @@ function OfferingVideo({ src }) {
       ref={videoRef}
       className="offering-img"
       src={src}
+      poster={poster}
       autoPlay
       loop
       muted
@@ -173,7 +178,7 @@ const Offerings = ({ onHoverColor }) => {
 <div
   className="offering-right"
 >
-            <OfferingVideo src={`/${item.video}`} />
+            <OfferingVideo src={`/${item.video}`} poster={`/${item.poster}`} />
 
             <div className="offering-glass" />
 

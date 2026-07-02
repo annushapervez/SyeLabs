@@ -7,6 +7,7 @@ const posts = [
     title: "Inside look for first timers at KubeCon!",
     meta: "3 min watch · LinkedIn",
     video: "linkedin1.mp4",
+    poster: "linkedin1-poster.jpg",
     link: "https://www.linkedin.com/posts/syelabs_kubecon-cncf-cloudnative-activity-7390146819768500225-XjS3?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC9GeDABvdk515cZ7yy8RR55U5zeik8ObhI",
     bg: "#2C1A0E",
   },
@@ -16,6 +17,7 @@ const posts = [
     meta: "1 min watch · LinkedIn",
     zoom: 1.15,
     video: "linkedin4.mp4",
+    poster: "linkedin4-poster.jpg",
     link: "https://www.linkedin.com/posts/syelabs_kubecon-kubecon2025-kubecon2024-activity-7385122449283108864-WsmJ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAC9GeDABvdk515cZ7yy8RR55U5zeik8ObhI",
     bg: "#1e1208",
   },
@@ -32,6 +34,7 @@ const posts = [
     title: "Behind the scenes at NVIDIA Conference 2025",
     meta: "2 min watch · LinkedIn",
     video: "linkedin2.mp4",
+    poster: "linkedin2-poster.jpg",
     link: "https://www.linkedin.com/feed/update/urn:li:activity:7391934094215004160",
     bg: "var(--rust)",
   },
@@ -106,21 +109,22 @@ function Card({ v, className = "" }) {
     >
       <div className="content-thumb" style={{ background: v.bg }}>
 
-        {v.video && (
-          <video
-            ref={videoRef}
-            className="content-video"
-            src={`/${v.video}`}
-            muted
-            loop
-            playsInline
-            webkit-playsinline="true"
-            preload="auto"
-            style={{
-              transform: v.zoom ? `scale(${v.zoom})` : "scale(1)",
-            }}
-          />
-        )}
+       {v.video && (
+  <video
+    ref={videoRef}
+    className="content-video"
+    src={`/${v.video}`}
+    poster={v.poster ? `/${v.poster}` : undefined}
+    muted
+    loop
+    playsInline
+    webkit-playsinline="true"
+    preload="auto"
+    style={{
+      transform: v.zoom ? `scale(${v.zoom})` : "scale(1)",
+    }}
+  />
+)}
 
         {v.image && (
           <img

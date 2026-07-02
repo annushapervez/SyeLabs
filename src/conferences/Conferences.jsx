@@ -11,6 +11,7 @@ const conferencePosts = [
     body: "SyeLabs takes you inside one of the biggest AI events of the year. From the show floor to the sessions, here's what it actually looks and feels like to be in the room where the industry is moving.",
     image: null,
     video: "/linkedin2.mp4",
+    poster: "/linkedin2-poster.jpg",
     imageName: "nvidia-conference-2025",
   },
 ];
@@ -20,23 +21,38 @@ const conferenceGridItems = [
     title: "Highlights from KubeCon 2024",
     hoverTitle: "Ever wondered what it's actually like to walk through a major tech conference as an insider? Here's your backstage pass.",
     video: "/linkedin6.mp4",
+    poster: "/linkedin6-poster.jpg",
     link: "https://www.linkedin.com/feed/update/urn:li:activity:7389343590956679168",
   },
   {
     title: "Simple Networking Tips for Your First Conference",
-    hoverTitle: "Here’s a quick tip to help you start conversations, meet new people, and feel more confident at your first conference.",
+    hoverTitle: "Here's a quick tip to help you start conversations, meet new people, and feel more confident at your first conference.",
     video: "/linkedin7.mp4",
+    poster: "/linkedin7-poster.jpg",
     objectPosition: "center",
     link:"https://www.linkedin.com/feed/update/urn:li:activity:7387260106825949184",
   },
   {
     title: "An Inside Look at KubeCon for First-Timers",
-    hoverTitle: "Take a look back at our time at KubeCon 2024, from first impressions to standout moments, here’s a glimpse into the experience.",
+    hoverTitle: "Take a look back at our time at KubeCon 2024, from first impressions to standout moments, here's a glimpse into the experience.",
     video: "/linkedin1.mp4",
+    poster: "/linkedin1-poster.jpg",
     link: "https://www.linkedin.com/feed/update/urn:li:activity:7390146819768500225",
   },
 ];
 
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    const hasCoarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    const hasTouchSupport = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    setIsTouch(hasCoarsePointer && hasTouchSupport);
+  }, []);
+
+  return isTouch;
+}
 
 const upcomingConference = {
   title: "AWS Summit New York City 2026",
@@ -80,11 +96,11 @@ const confCardVariants = {
     transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
   },
 };
-
 function PostCard({ post, i }) {
   const ref = useRef(null);
   const videoRef = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.25 });
+  const isTouch = useIsTouchDevice();
 
   const handleMouseEnter = () => videoRef.current?.play();
   const handleMouseLeave = () => {
@@ -93,6 +109,25 @@ function PostCard({ post, i }) {
       videoRef.current.currentTime = 0;
     }
   };
+
+  // Touch devices: autoplay on scroll into view. Desktop stays hover-only,
+  // via handleMouseEnter/Leave above — unchanged.
+  useEffect(() => {
+    if (!isTouch || !post.video || !videoRef.current) return;
+
+    const el = videoRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.play().catch(() => {});
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isTouch, post.video]);
 
   return (
     <motion.div
@@ -121,7 +156,16 @@ function PostCard({ post, i }) {
       </div>
       <div className="conf-post-card-image">
         {post.video ? (
-          <video ref={videoRef} src={post.video} muted playsInline loop />
+          <video
+            ref={videoRef}
+            src={post.video}
+            poster={post.poster}
+            muted
+            playsInline
+            webkit-playsinline="true"
+            preload="auto"
+            loop
+          />
         ) : post.image ? (
           <img src={post.image} alt={post.imageName} />
         ) : (
@@ -131,12 +175,12 @@ function PostCard({ post, i }) {
     </motion.div>
   );
 }
-
 function GridCard({ item, i }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.25 });
   const videoRef = useRef(null);
   const [hovered, setHovered] = useState(false);
+  const isTouch = useIsTouchDevice();
 
   const handleMouseEnter = () => {
     setHovered(true);
@@ -149,6 +193,24 @@ function GridCard({ item, i }) {
       videoRef.current.currentTime = 0;
     }
   };
+
+  // Touch devices: autoplay on scroll into view. Desktop stays hover-only.
+  useEffect(() => {
+    if (!isTouch || !item.video || !videoRef.current) return;
+
+    const el = videoRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.play().catch(() => {});
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isTouch, item.video]);
 
   return (
     <motion.div
@@ -168,9 +230,12 @@ function GridCard({ item, i }) {
           <video
             ref={videoRef}
             src={item.video}
+            poster={item.poster}
             muted
             loop
             playsInline
+            webkit-playsinline="true"
+            preload="auto"
             style={{
               transform: item.zoom ? `scale(${item.zoom})` : "scale(1)",
               objectPosition: item.objectPosition ?? "top",
