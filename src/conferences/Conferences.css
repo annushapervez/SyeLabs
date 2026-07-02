@@ -605,7 +605,13 @@
   .conf-closing-sticky { padding: 0 32px; }
   .conf-closing-phrase { left: 32px; right: 32px; top: 50%; transform: translateY(-50%); }
   .conf-closing-text { font-size: 2.2rem; font-weight: 500; }
+
+  cssvideo::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none !important;
 }
+}
+
 
 @media (max-width: 400px) {
  .conference-card-title {
@@ -623,4 +629,9 @@
         font-size: .9rem;
 
   }
+
+  cssvideo::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
 }

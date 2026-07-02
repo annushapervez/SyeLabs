@@ -143,6 +143,10 @@ body {
 }
 
 @media (max-width: 768px) {
+  cssvideo::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
   .offering {
     grid-template-columns: 1fr;
     padding: 48px 32px;
