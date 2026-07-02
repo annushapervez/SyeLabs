@@ -531,12 +531,22 @@ font-family: 'Playfair Display', serif;
     display: none;
   }
 
+  .workshop-feature-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
   .workshop-feature-footer span {
     font-weight: 500;
+    max-width: none;
   }
 
   .workshop-feature-footer a {
     font-weight: 500;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
   }
 
   .mentorship-posts {
@@ -578,7 +588,7 @@ font-family: 'Playfair Display', serif;
   }
 
   .mentorship-closing-sticky { padding: 0 32px; }
-  .mentorship-closing-phrase { left: 32px; right: 32px; top: 50%; transform: translateY(-40%); }
+  .mentorship-closing-phrase { left: 32px; right: 32px; top: 50%; transform: translateY(-50%); }
   .mentorship-closing-phrase h1 { font-size: 2.2rem;  font-weight: 500; }
 
 
