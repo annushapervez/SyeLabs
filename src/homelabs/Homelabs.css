@@ -538,3 +538,58 @@
 
 .lab-closing-line-1 { opacity: 1; }
 .lab-closing-line-2 { opacity: 0.8; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  /* Hero */
+  .homelabs-hero { min-height: 62vh; padding: 0 32px; }
+  .homelabs-headline { left: 32px; right: 32px; font-size: clamp(2rem, 8vw, 2.8rem); top: 15vh; }
+
+  /* Scroll gallery */
+  .scroll-gallery-item { height: 24vh; }
+  .scroll-gallery-track--auto { animation: marquee 20s linear infinite; }
+
+  /* Highlight post card */
+  .lab-highlight-section { padding: 0 32px; }
+  .lab-post-card { height: auto; padding-top: 20px; }
+  .lab-post-card-title { font-size: 1.4rem; }
+  .lab-post-card-author { font-size: 1.3rem; }
+  .lab-post-card-body { order: 2; opacity: 1; max-height: none; transform: none; font-size: 1rem; }
+  .lab-post-card-tags { order: 3; }
+
+  /* Grid section */
+  .homelabs-grid-section { padding: 60px 32px 72px; }
+  .homelabs-tabs { gap: 14px; flex-wrap: wrap; }
+  .homelabs-tab { font-size: 1.2rem; }
+  .homelabs-grid { grid-template-columns: 1fr 1fr; gap: 40px 16px; }
+  .lab-card-title-wrapper { min-height: auto; padding-bottom: 0; }
+  .lab-card-title { position: relative; inset: auto; }
+
+  /* Load more */
+  .homelabs-load-more { padding: 28px 0; margin-top: 48px; }
+  .homelabs-load-more-label { font-size: 1.2rem; }
+
+  /* Newsletter */
+  .lab-newsletter-section { padding: 0 32px 60px; }
+  .lab-newsletter-card {
+    padding: 56px 28px;
+    flex-direction: column;
+    background: linear-gradient(to bottom, #fdf8f2 0%, var(--cream) 30%, var(--sand1) 52%, var(--warm-sand) 75%, #C07050 100%);
+  }
+  .lab-newsletter-title { font-size: 1.1rem; }
+  .lab-newsletter-sub { font-size: 1rem; }
+  .lab-newsletter-form { flex-direction: column; }
+  .lab-newsletter-input { width: 100%; box-sizing: border-box; }
+  .lab-newsletter-btn { width: 100%; box-sizing: border-box; }
+
+  /* Closing */
+  .lab-closing-zone { height: 150vh; }
+  .lab-closing-sticky { padding: 0 32px; }
+  .lab-closing-phrase { left: 32px; right: 32px; top: 50%; transform: translateY(-50%); }
+  .lab-closing-text { font-size: 2.1rem; font-weight: 500; }
+  .lab-closing-line-2 { display: block; }
+}

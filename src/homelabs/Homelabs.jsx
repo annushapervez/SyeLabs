@@ -3,6 +3,18 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from "fra
 import Footer from "../components/Footer";
 import "./Homelabs.css";
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.innerWidth <= breakpoint
+  );
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= breakpoint);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 function StaggeredFade({ text }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -48,26 +60,38 @@ const galleryScenes = [
 
 function ScrollGallery({ scenes = galleryScenes }) {
   const ref = useRef(null);
+  const isMobile = useIsMobile();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
   const x = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
+  const doubled = [...scenes, ...scenes];
+
   return (
     <section ref={ref} className="scroll-gallery">
-
-      <motion.div className="scroll-gallery-track" style={{ x }}>
-        {scenes.map((s, i) => (
-          <figure className="scroll-gallery-item" key={i}>
-            <img src={s.image} alt={s.scene} />
-            <figcaption className="scroll-gallery-caption">
-              <span className="scroll-gallery-scene">{s.scene}</span>
-              <span className="scroll-gallery-concept">{s.concept}</span>
-            </figcaption>
-          </figure>
-        ))}
-      </motion.div>
+      {isMobile ? (
+        <div className="scroll-gallery-track scroll-gallery-track--auto">
+          {doubled.map((s, i) => (
+            <figure className="scroll-gallery-item" key={i}>
+              <img src={s.image} alt={s.scene} />
+            </figure>
+          ))}
+        </div>
+      ) : (
+        <motion.div className="scroll-gallery-track" style={{ x }}>
+          {scenes.map((s, i) => (
+            <figure className="scroll-gallery-item" key={i}>
+              <img src={s.image} alt={s.scene} />
+              <figcaption className="scroll-gallery-caption">
+                <span className="scroll-gallery-scene">{s.scene}</span>
+                <span className="scroll-gallery-concept">{s.concept}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </motion.div>
+      )}
     </section>
   );
 }
@@ -358,7 +382,7 @@ function LabClosingLines({ lines, className }) {
       animate={isInView ? "show" : "hidden"}
     >
       {lines.map((line, lineIdx) => (
-        <span key={lineIdx} className={`lab-closing-line-${lineIdx + 1}`} style={{ display: "inline" }}>
+        <span key={lineIdx} className={`lab-closing-line-${lineIdx + 1}`}>
           {line.split(" ").map((word) => {
             const i = wordIndex++;
             return (
