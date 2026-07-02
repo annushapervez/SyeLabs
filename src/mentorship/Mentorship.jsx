@@ -172,7 +172,7 @@ function WorkshopSection() {
               Interested in bringing a workshop to your school,
               organization, or event?
             </span>
-            <a href="mailto:hello@syelabs.com" style={{ color: "#C1714F" }}>Reach out</a>
+            <a href="mailto:	syelabs.thrivetogether@gmail.com" style={{ color: "#C1714F" }}>Reach out</a>
           </div>
         </div>
 

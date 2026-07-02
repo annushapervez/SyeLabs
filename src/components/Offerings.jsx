@@ -125,6 +125,7 @@ const Offerings = ({ onHoverColor }) => {
               loop
               muted
               playsInline
+              preload="auto"
             />
 
             <div className="offering-glass" />
