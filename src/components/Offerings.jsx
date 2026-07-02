@@ -1,7 +1,8 @@
 import "./Offerings.css";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
+
 const offerings = [
   {
     title: "Mentorship",
@@ -33,6 +34,19 @@ const offerings = [
 
   },
 ];
+
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    const hasCoarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    const hasTouchSupport = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    setIsTouch(hasCoarsePointer && hasTouchSupport);
+  }, []);
+
+  return isTouch;
+}
 
 function StaggeredBody({ text, className }) {
   const ref = useRef(null);
@@ -76,6 +90,47 @@ function StaggeredBody({ text, className }) {
     </motion.p>
   );
 }
+
+// Desktop: relies purely on the native `autoPlay` attribute, unchanged.
+// Touch devices: additionally forces `.play()` once the video scrolls into
+// view, since mobile browsers (esp. iOS Low Power Mode) often ignore the
+// bare autoPlay attribute and fall back to showing a play button.
+function OfferingVideo({ src }) {
+  const videoRef = useRef(null);
+  const isTouch = useIsTouchDevice();
+
+  useEffect(() => {
+    if (!isTouch || !videoRef.current) return;
+
+    const el = videoRef.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.play().catch(() => {});
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isTouch]);
+
+  return (
+    <video
+      ref={videoRef}
+      className="offering-img"
+      src={src}
+      autoPlay
+      loop
+      muted
+      playsInline
+      webkit-playsinline="true"
+      preload="auto"
+    />
+  );
+}
+
 const Offerings = ({ onHoverColor }) => {
   const defaultBg = "#F2E8D9"; 
 
@@ -118,15 +173,7 @@ const Offerings = ({ onHoverColor }) => {
 <div
   className="offering-right"
 >
-            <video
-              className="offering-img"
-              src={`/${item.video}`}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-            />
+            <OfferingVideo src={`/${item.video}`} />
 
             <div className="offering-glass" />
 

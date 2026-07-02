@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import "./content.css";
 
 const posts = [
@@ -45,29 +45,23 @@ const posts = [
   },
 ];
 
+function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    const hasCoarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+    const hasTouchSupport = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+    setIsTouch(hasCoarsePointer && hasTouchSupport);
+  }, []);
+
+  return isTouch;
+}
+
 function Card({ v, className = "" }) {
   const videoRef = useRef(null);
   const cardRef = useRef(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const isTouchDevice = window.matchMedia("(hover: none)").matches;
-    if (!isTouchDevice) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      },
-      { threshold: 0.5 }
-    );
-    observer.observe(cardRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const isTouch = useIsTouchDevice();
 
   function handleMouseEnter() {
     if (videoRef.current) {
@@ -81,6 +75,26 @@ function Card({ v, className = "" }) {
       videoRef.current.currentTime = 0;
     }
   }
+
+  // Autoplay on scroll into view — touch devices only.
+  // Desktop keeps strictly hover-triggered playback via handleMouseEnter/Leave above.
+  useEffect(() => {
+    if (!isTouch || !v.video || !videoRef.current || !cardRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          videoRef.current.play().catch(() => {});
+        } else {
+          videoRef.current.pause();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [isTouch, v.video]);
 
   return (
     <div
@@ -100,6 +114,7 @@ function Card({ v, className = "" }) {
             muted
             loop
             playsInline
+            webkit-playsinline="true"
             preload="auto"
             style={{
               transform: v.zoom ? `scale(${v.zoom})` : "scale(1)",
