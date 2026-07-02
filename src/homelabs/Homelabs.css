@@ -551,7 +551,7 @@
     padding: 32px 14px 14px;
   }
   .scroll-gallery-scene {
-  font-size: 0.7rem;
+  font-size: 0.65rem;
 
 }
 
@@ -564,8 +564,11 @@
 
   /* Scroll gallery */
   .scroll-gallery-item { height: 24vh; }
-  .scroll-gallery-track--auto { animation: marquee 20s linear infinite; }
+.scroll-gallery-track--auto {
+    animation: marquee 20s linear infinite;
+  }
 
+  
   /* Highlight post card */
   .lab-highlight-section { padding: 0 32px; }
   .lab-post-card { height: auto; padding-top: 20px; }

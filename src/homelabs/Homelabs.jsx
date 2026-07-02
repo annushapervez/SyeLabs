@@ -51,55 +51,65 @@ function StaggeredFade({ text }) {
 
 const galleryScenes = [
   { image: "/kitchen.jpg",   scene: "A busy kitchen line",  concept: "Pipelines & queues" },
-    { image: "/stadium.jpg",   scene: "A sold-out stadium",   concept: "Load balancing" },
+  { image: "/stadium.jpg",   scene: "A sold-out stadium",   concept: "Load balancing" },
   { image: "/subway.jpg",    scene: "The subway map",       concept: "Graph traversal" },
-   { image: "/traffic.jpg",   scene: "Rush-hour traffic",    concept: "Routing & scheduling" },
-       { image: "/golf.jpg",      scene: "A golf course at dawn", concept: "Distributed systems" },
-  { image: "/kitchen.jpg",   scene: "A busy kitchen line",  concept: "Pipelines & queues" },
+  { image: "/traffic.jpg",   scene: "Rush-hour traffic",    concept: "Routing & scheduling" },
+  { image: "/golf.jpg",      scene: "A golf course at dawn", concept: "Distributed systems" },
 ];
 
 function ScrollGallery({ scenes = galleryScenes }) {
-  const ref = useRef(null);
   const isMobile = useIsMobile();
+  return isMobile ? <MobileGallery scenes={scenes} /> : <DesktopGallery scenes={scenes} />;
+}
+
+function DesktopGallery({ scenes }) {
+  const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
   const x = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
-  const doubled = [...scenes, ...scenes];
-
   return (
     <section ref={ref} className="scroll-gallery">
-     {isMobile ? (
-  <div className="scroll-gallery-track scroll-gallery-track--auto">
-    {doubled.map((s, i) => (
-      <figure className="scroll-gallery-item" key={i}>
-        <img src={s.image} alt={s.scene} />
-        <figcaption className="scroll-gallery-caption">
-          <span className="scroll-gallery-scene">{s.scene}</span>
-          <span className="scroll-gallery-concept">{s.concept}</span>
-        </figcaption>
-      </figure>
-    ))}
-  </div>
-) : (
-  <motion.div className="scroll-gallery-track" style={{ x }}>
-    {scenes.map((s, i) => (
-      <figure className="scroll-gallery-item" key={i}>
-        <img src={s.image} alt={s.scene} />
-        <figcaption className="scroll-gallery-caption">
-          <span className="scroll-gallery-scene">{s.scene}</span>
-          <span className="scroll-gallery-concept">{s.concept}</span>
-        </figcaption>
-      </figure>
-    ))}
-  </motion.div>
-)}
+      <motion.div className="scroll-gallery-track" style={{ x }}>
+        {scenes.map((s, i) => (
+          <figure className="scroll-gallery-item" key={i}>
+            <img src={s.image} alt={s.scene} decoding="async" />
+            <figcaption className="scroll-gallery-caption">
+              <span className="scroll-gallery-scene">{s.scene}</span>
+              <span className="scroll-gallery-concept">{s.concept}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </motion.div>
     </section>
   );
 }
+function MobileGallery({ scenes }) {
+  const doubled = [...scenes, ...scenes];
 
+  return (
+    <section className="scroll-gallery">
+      <div className="scroll-gallery-track scroll-gallery-track--auto">
+        {doubled.map((s, i) => (
+          <figure className="scroll-gallery-item" key={i}>
+            <img
+              src={s.image}
+              alt={s.scene}
+              fetchpriority={i === 0 ? "high" : "auto"}
+              loading={i === 0 ? "eager" : "lazy"}
+            />
+            <figcaption className="scroll-gallery-caption">
+              <span className="scroll-gallery-scene">{s.scene}</span>
+              <span className="scroll-gallery-concept">{s.concept}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
+}
 const labHighlight = {
   title: "How It's All Connected",
   author: "SyeLabs Team",

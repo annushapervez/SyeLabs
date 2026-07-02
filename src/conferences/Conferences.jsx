@@ -28,7 +28,6 @@ const conferenceGridItems = [
     title: "Simple Networking Tips for Your First Conference",
     hoverTitle: "Here's a quick tip to help you start conversations, meet new people, and feel more confident at your first conference.",
     video: "/linkedin7.mp4",
-    poster: "/linkedin7-poster.jpg",
     objectPosition: "center",
     link:"https://www.linkedin.com/feed/update/urn:li:activity:7387260106825949184",
   },
@@ -220,8 +219,8 @@ function GridCard({ item, i }) {
       initial="hidden"
       animate={isInView ? "show" : "hidden"}
       transition={{ delay: i * 0.1 }}
-      onMouseEnter={isTouch ? undefined : handleMouseEnter}
-      onMouseLeave={isTouch ? undefined : handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onClick={() => item.link && window.open(item.link, "_blank")}
       style={{ cursor: item.link ? "pointer" : "default" }}
     >

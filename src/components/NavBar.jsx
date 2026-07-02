@@ -36,8 +36,14 @@ const NavBar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
-      if (currentScroll > lastScroll.current) setShow(false);
-      else setShow(true);
+      const delta = currentScroll - lastScroll.current;
+      if (currentScroll < 60) {
+        setShow(true);
+      } else if (delta > 6) {
+        setShow(false);
+      } else if (delta < -6) {
+        setShow(true);
+      }
       setScrolled(currentScroll > 80);
       if (isConferences) {
         setPastHero(currentScroll > window.innerHeight * 0.4);
