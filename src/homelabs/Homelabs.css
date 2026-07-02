@@ -566,6 +566,7 @@
   .scroll-gallery-item { height: 24vh; }
 .scroll-gallery-track--auto {
     animation: marquee 20s linear infinite;
+    overflow: visible;
   }
 
   
@@ -582,7 +583,7 @@
   .homelabs-grid-section { padding: 60px 32px 72px; }
   .homelabs-tabs { gap: 14px; flex-wrap: wrap; }
   .homelabs-tab { font-size: 1.2rem; }
-  .homelabs-grid { grid-template-columns: 1fr 1fr; gap: 40px 16px; }
+  .homelabs-grid { grid-template-columns: 1fr 1fr; gap: 50px 16px; }
   .lab-card-title-wrapper { min-height: auto; padding-bottom: 0; }
   .lab-card-title { position: relative; inset: auto; }
 
