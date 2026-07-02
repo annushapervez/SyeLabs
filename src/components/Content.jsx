@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import "./content.css";
 
 const posts = [
@@ -47,6 +47,27 @@ const posts = [
 
 function Card({ v, className = "" }) {
   const videoRef = useRef(null);
+  const cardRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const isTouchDevice = window.matchMedia("(hover: none)").matches;
+    if (!isTouchDevice) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   function handleMouseEnter() {
     if (videoRef.current) {
@@ -63,13 +84,14 @@ function Card({ v, className = "" }) {
 
   return (
     <div
+      ref={cardRef}
       className={`content-card ${className}`}
       onClick={() => v.link && window.open(v.link, "_blank")}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <div className="content-thumb" style={{ background: v.bg }}>
-        
+
         {v.video && (
           <video
             ref={videoRef}
@@ -79,9 +101,9 @@ function Card({ v, className = "" }) {
             loop
             playsInline
             preload="auto"
-              style={{
-    transform: v.zoom ? `scale(${v.zoom})` : "scale(1)",
-  }}
+            style={{
+              transform: v.zoom ? `scale(${v.zoom})` : "scale(1)",
+            }}
           />
         )}
 

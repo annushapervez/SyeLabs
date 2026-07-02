@@ -8,7 +8,7 @@ const offerings = [
     desc: "Guidance from people who've navigated the industry. Get real advice, real connections, and a clearer path forward.",
     tags: ["Career guidance", "Industry access"],
     hoverColor: "#f2faff",
-    video: "mentorship.mov",
+    video: "mentorship.mp4",
     visualBg: "#5a4334",
     link: "/mentorship",
   },
