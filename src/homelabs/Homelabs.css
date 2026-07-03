@@ -562,12 +562,10 @@
   .homelabs-hero { min-height: 62vh; padding: 0 32px; }
   .homelabs-headline { left: 32px; right: 32px; font-size: clamp(2rem, 8vw, 2.8rem); top: 15vh; }
 
-  /* Scroll gallery */
-  .scroll-gallery-item { height: 24vh; }
-.scroll-gallery-track--auto {
-    animation: marquee 20s linear infinite;
-    overflow: visible;
-  }
+  /* Scroll gallery — Splide on mobile */
+  .splide-mobile-gallery { width: 100%; }
+  .splide-mobile-gallery .splide__track { overflow: visible; }
+  .splide-gallery-item { height: 24vh; width: auto; }
 
   
   /* Highlight post card */

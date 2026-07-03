@@ -1,5 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { AutoScroll } from "@splidejs/splide-extension-auto-scroll";
+import "@splidejs/react-splide/css/core";
 import Footer from "../components/Footer";
 import "./Homelabs.css";
 
@@ -87,26 +90,44 @@ function DesktopGallery({ scenes }) {
   );
 }
 function MobileGallery({ scenes }) {
-  const doubled = [...scenes, ...scenes];
-
   return (
     <section className="scroll-gallery">
-      <div className="scroll-gallery-track scroll-gallery-track--auto">
-        {doubled.map((s, i) => (
-          <figure className="scroll-gallery-item" key={i}>
-            <img
-              src={s.image}
-              alt={s.scene}
-              fetchpriority={i === 0 ? "high" : "auto"}
-              loading={i === 0 ? "eager" : "lazy"}
-            />
-            <figcaption className="scroll-gallery-caption">
-              <span className="scroll-gallery-scene">{s.scene}</span>
-              <span className="scroll-gallery-concept">{s.concept}</span>
-            </figcaption>
-          </figure>
+      <Splide
+        options={{
+          type: "loop",
+          rewind: true,
+          arrows: false,
+          pagination: false,
+          gap: "12px",
+          autoWidth: true,
+          drag: "free",
+          autoScroll: {
+            pauseOnHover: false,
+            pauseOnFocus: false,
+            rewind: true,
+            speed: 2,
+          },
+        }}
+        extensions={{ AutoScroll }}
+        className="splide-mobile-gallery"
+      >
+        {scenes.map((s, i) => (
+          <SplideSlide key={i}>
+            <figure className="scroll-gallery-item splide-gallery-item">
+              <img
+                src={s.image}
+                alt={s.scene}
+                fetchpriority={i === 0 ? "high" : "auto"}
+                loading={i === 0 ? "eager" : "lazy"}
+              />
+              <figcaption className="scroll-gallery-caption">
+                <span className="scroll-gallery-scene">{s.scene}</span>
+                <span className="scroll-gallery-concept">{s.concept}</span>
+              </figcaption>
+            </figure>
+          </SplideSlide>
         ))}
-      </div>
+      </Splide>
     </section>
   );
 }
