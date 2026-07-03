@@ -17,12 +17,14 @@
 .mobile-nav--hide .mobile-nav-logo,
 .mobile-nav--hide .mobile-nav-burger {
   opacity: 0;
+  transform: translateY(-6px);
   pointer-events: none;
 }
 
 .mobile-nav--show .mobile-nav-logo,
 .mobile-nav--show .mobile-nav-burger {
   opacity: 1;
+  transform: translateY(0);
 }
 
 /* Logo */
@@ -37,7 +39,7 @@
   gap: 8px;
   text-decoration: none;
   position: relative;
-  transition: opacity 0.3s ease, color 0.2s ease;
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s ease;
 }
 
 .mobile-nav-logo-dots {
@@ -95,6 +97,7 @@
   border: none;
   cursor: pointer;
   padding: 0;
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mobile-nav-burger-line {

@@ -35,11 +35,11 @@ comingSoon: true,
 
 const cardVariants = {
   hidden: { opacity: 0, y: 40 },
-  show: {
+  show: (delay = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-  },
+    transition: { delay, duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+  }),
 };
 
 function StaggeredFade({ text }) {
@@ -184,18 +184,20 @@ function WorkshopSection() {
   );
 }
 
-function PostCard({ post, i }) {
+function PostCard({ post, i, isMobile }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.25 });
+  const showOnMount = isMobile && i === 0;
+  const delay = showOnMount ? 2 : i * 0.1;
 
   return (
     <motion.div
       ref={ref}
       className="post-card"
       variants={cardVariants}
+      custom={delay}
       initial="hidden"
-      animate={isInView ? "show" : "hidden"}
-      transition={{ delay: i * 0.1 }}
+      animate={showOnMount || isInView ? "show" : "hidden"}
       onClick={() => post.link && window.open(post.link, "_blank")}
       style={{ cursor: post.link ? "pointer" : "default" }}
     >
@@ -288,6 +290,7 @@ function StaggeredLines({ lines, className, delay = 0, blur=true}) {
   );
 }
 export default function Mentorship() {
+  const isMobile = useIsMobile();
   const postsRef = useRef(null);
   const postsInView = useInView(postsRef, { once: true, amount: 0.1 });
     const closingZoneRef = useRef(null);
@@ -321,10 +324,11 @@ useEffect(() => {
       <StaggeredLines
     className="mentorship-posts-label"
     lines={["From our mentors, to you."]}
-    delay={2}
+    delay={isMobile ? 1 : 2}
+    blur={!isMobile}
   />
   {posts.map((post, i) => (
-    <PostCard key={post.title} post={post} i={i} />
+    <PostCard key={post.title} post={post} i={i} isMobile={isMobile} />
   ))}
 </section>
 

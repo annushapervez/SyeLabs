@@ -418,7 +418,7 @@ function LabClosingLines({ lines, className }) {
       animate={isInView ? "show" : "hidden"}
     >
       {lines.map((line, lineIdx) => (
-        <span key={lineIdx} className={`lab-closing-line-${lineIdx + 1}`}>
+        <span key={lineIdx} className={`lab-closing-line-${lineIdx + 1}`}  style={{ display: "inline" }}>
           {line.split(" ").map((word) => {
             const i = wordIndex++;
             return (

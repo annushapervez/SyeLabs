@@ -80,6 +80,18 @@ const teamItem = {
     },
   },
 };
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" && window.innerWidth <= breakpoint
+  );
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= breakpoint);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 function StaggeredFade({ text }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
@@ -152,6 +164,7 @@ function StaggeredLines({ lines, className }) {
         <span
           key={lineIdx}
           className={`line-${lineIdx + 1}`}
+          style={{ display: "inline" }} 
         >
           {line.split(" ").map((word) => {
             const i = wordIndex++;
@@ -174,7 +187,7 @@ function StaggeredLines({ lines, className }) {
     </motion.h1>
   );
 }
-function TimelineBeat({ beat, i, firstBeatRef }) {
+function TimelineBeat({ beat, i, firstBeatRef, forceShow, isMobile }) {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
@@ -208,7 +221,7 @@ function TimelineBeat({ beat, i, firstBeatRef }) {
       className="timeline-beat"
       variants={container}
       initial="hidden"
-      animate={isInView ? "show" : "hidden"}
+      animate={(isMobile ? forceShow : isInView) ? "show" : "hidden"}
     >
       <div className="timeline-content">
         
@@ -218,7 +231,7 @@ function TimelineBeat({ beat, i, firstBeatRef }) {
 <FadeUpBody
   text={beat.body}
   className="tl-beat-body"
-  trigger={isInView}
+  trigger={isMobile ? forceShow : isInView}
 />
       </div>
     </motion.div>
@@ -230,11 +243,19 @@ export default function About() {
   const closeRef = useRef(null);
   const closingZoneRef = useRef(null);
   const [isDarkZone, setIsDarkZone] = useState(false);
+  const isMobile = useIsMobile();
+  const [mounted3s, setMounted3s] = useState(false);
 const firstBeatRef = useRef(null);
 const firstBeatInView = useInView(firstBeatRef, {
   once: true,
   amount: 0.6,
 });
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const t = setTimeout(() => setMounted3s(true), 2500);
+    return () => clearTimeout(t);
+  }, [isMobile]);
 const teamRef = useRef(null);
 const teamInView = useInView(teamRef, {
   once: true,
@@ -281,7 +302,7 @@ const teamInView = useInView(teamRef, {
 <motion.div
   className="our-story-header"
   initial={{ opacity: 0, y: 40 }}
-  animate={firstBeatInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+  animate={(isMobile ? mounted3s : firstBeatInView) ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
   transition={{ duration: 0.6 }}
 >
         <span className="our-story-label">Our story</span>
@@ -297,6 +318,8 @@ const teamInView = useInView(teamRef, {
       beat={beat}
       i={i}
       firstBeatRef={firstBeatRef}
+      forceShow={mounted3s}
+      isMobile={isMobile}
     />
   ))}
 </div>

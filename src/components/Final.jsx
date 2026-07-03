@@ -2,17 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import "./Final.css";
 
+const staggerVariants = {
+  hidden: { opacity: 0 },
+  show: (i) => ({
+    opacity: 1,
+    transition: { delay: i * 0.08, duration: 0.4 },
+  }),
+};
+
 function StaggeredLines({ lines, className }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
-
-  const variants = {
-    hidden: { opacity: 0 },
-    show: (i) => ({
-      opacity: 1,
-      transition: { delay: i * 0.08, duration: 0.4 },
-    }),
-  };
 
   let wordIndex = 0;
 
@@ -27,6 +27,7 @@ function StaggeredLines({ lines, className }) {
         <span
           key={lineIdx}
           className={`line-${lineIdx + 1}`}
+          style={{ display: "inline" }} // 👈 IMPORTANT
         >
           {line.split(" ").map((word) => {
             const i = wordIndex++;
@@ -34,7 +35,7 @@ function StaggeredLines({ lines, className }) {
               <motion.span
                 key={i}
                 custom={i}
-                variants={variants}
+                variants={staggerVariants}
                 style={{
                   display: "inline-block",
                   marginRight: "0.25em",

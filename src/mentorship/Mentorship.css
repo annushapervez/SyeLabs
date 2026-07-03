@@ -104,7 +104,7 @@
   z-index: 10;
   margin: 20px 0 50px;
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.8rem, 3vw, 2.2rem);
+  font-size:  2.2rem;
   font-weight: 400;
   line-height: 1.15;
   color: var(--brown);
@@ -477,9 +477,14 @@ font-family: 'Playfair Display', serif;
   .post-card-image {
     order: -1;
   }
+.mentorship-posts-label {
+
+  font-size: 1.7rem;
+
+}
 
   .post-card-title {
-    font-size: 1.4rem;
+    font-size: 1.4rem !important;
   }
 
     .post-card-author {
