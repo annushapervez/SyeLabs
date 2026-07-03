@@ -142,6 +142,13 @@ body {
               inset 0 1px 0 rgba(255, 248, 240, 0.2);
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .offerings-header { margin: 80px 40px 32px; }
+  .offerings-headline { font-size: 1.9rem; }
+  .offering { padding: 40px; grid-template-columns: 1fr 1.5fr; }
+  .offering-right { aspect-ratio: 4 / 3; }
+}
+
 @media (max-width: 768px) {
   cssvideo::-webkit-media-controls-start-playback-button {
   display: none !important;

@@ -544,6 +544,37 @@
   to { transform: translateX(-50%); }
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Hero */
+  .homelabs-hero { padding: 0 40px; min-height: 72vh; }
+  .homelabs-headline { left: 40px; right: 40px; }
+
+  /* Gallery */
+  .scroll-gallery-item { height: 32vh; }
+
+  /* Highlight post */
+  .lab-highlight-section { padding: 0 40px; }
+  .lab-post-card { height: auto; }
+  .lab-post-card-title { font-size: 1.6rem; }
+  .lab-post-card-body {
+    opacity: 1;
+    max-height: none;
+    transform: none;
+    font-size: 1.1rem;
+  }
+
+  /* Grid section */
+  .homelabs-grid-section { padding: 100px 40px 72px; }
+  .homelabs-tab { font-size: 1.4rem; }
+
+  /* Newsletter */
+  .lab-newsletter-section { padding: 0 40px 60px; }
+
+  /* Closing */
+  .lab-closing-sticky { padding: 0 40px; }
+  .lab-closing-phrase { left: 40px; right: 40px; }
+}
+
 @media (max-width: 768px) {
   .scroll-gallery-caption {
     opacity: 1;

@@ -243,7 +243,7 @@ export default function About() {
   const closeRef = useRef(null);
   const closingZoneRef = useRef(null);
   const [isDarkZone, setIsDarkZone] = useState(false);
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile(1024);
   const [mounted3s, setMounted3s] = useState(false);
 const firstBeatRef = useRef(null);
 const firstBeatInView = useInView(firstBeatRef, {

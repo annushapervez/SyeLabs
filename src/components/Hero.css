@@ -163,6 +163,15 @@
 .word-inner {
   display: inline-block;
 }
+@media (min-width: 769px) and (max-width: 1024px) {
+  .hero-sticky { padding: 0 40px; }
+  .hero-phrase { left: 40px; right: 40px; top: 18vh; }
+    .hero-phrase h1 { font-size: 3.5rem !important; }
+    .hero-phrase h2 { font-size: 3.5rem !important; }
+
+  .hero-btn { left: 40px; bottom: 70px; }
+}
+
 @media (max-width: 768px) {
   .hero-sticky { padding: 0 32px; height: 100dvh; }
   .hero-phrase { left: 32px; right: 32px; top: 15vh; }

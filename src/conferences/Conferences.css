@@ -479,6 +479,37 @@
   box-shadow: 0 20px 40px rgba(59, 31, 16, 0.15);
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .conferences-hero { padding: 0 40px; min-height: 95vh; }
+  .conferences-headline { left: 40px; right: 40px; top: 24vh; }
+  .conferences-posts { padding-top: 48vh; padding-bottom: 16px; }
+
+  .conf-post-card {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    height: auto;
+    padding: 40px 0;
+  }
+  .conf-post-card-left { height: auto; }
+  .conf-post-card-body {
+    opacity: 1;
+    max-height: none;
+    transform: none;
+    font-size: 1.1rem;
+  }
+  .conf-post-card-title { font-size: 1.6rem; }
+  .conf-post-card-author { font-size: 1.2rem; }
+
+  .upcoming-conf { padding: 0 40px 40px; }
+  .upcoming-conf::after { left: 40px; right: 40px; }
+  .upcoming-conf-body { gap: 48px; }
+
+  .conferences-grid-section { padding: 120px 40px 80px; }
+
+  .conf-closing-sticky { padding: 0 40px; }
+  .conf-closing-phrase { left: 40px; right: 40px; }
+}
+
 @media (max-width: 768px) {
   .conferences-hero {
     min-height: 62vh;

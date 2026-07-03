@@ -96,17 +96,37 @@ function useIsMobile(breakpoint = 768) {
   }, [breakpoint]);
   return isMobile;
 }
+
+function useIsTablet() {
+  const [isTablet, setIsTablet] = useState(
+    typeof window !== "undefined" && window.innerWidth > 768 && window.innerWidth <= 1024
+  );
+  useEffect(() => {
+    const onResize = () => setIsTablet(window.innerWidth > 768 && window.innerWidth <= 1024);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  return isTablet;
+}
+
 function WorkshopSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   const pairs = [];
   for (let i = 0; i < WORKSHOP_TAGS.length; i += 2) {
     pairs.push(WORKSHOP_TAGS.slice(i, i + 2));
   }
 
+  const triples = [];
+  for (let i = 0; i < WORKSHOP_TAGS.length; i += 3) {
+    triples.push(WORKSHOP_TAGS.slice(i, i + 3));
+  }
+
   const [pairIndex, setPairIndex] = useState(0);
+  const [tripleIndex, setTripleIndex] = useState(0);
 
   useEffect(() => {
     if (!isMobile) return;
@@ -115,6 +135,14 @@ function WorkshopSection() {
     }, 2800);
     return () => clearInterval(id);
   }, [isMobile, pairs.length]);
+
+  useEffect(() => {
+    if (!isTablet) return;
+    const id = setInterval(() => {
+      setTripleIndex((p) => (p + 1) % triples.length);
+    }, 2800);
+    return () => clearInterval(id);
+  }, [isTablet, triples.length]);
 
   return (
     <motion.section
@@ -131,6 +159,24 @@ function WorkshopSection() {
       {isMobile ? (
         <div className="mentorship-workshop-tags mobile">
           {pairs[pairIndex].map((tag, idx) => (
+            <div className="workshop-tag-card" key={idx}>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={tag}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {tag}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+          ))}
+        </div>
+      ) : isTablet ? (
+        <div className="mentorship-workshop-tags tablet">
+          {triples[tripleIndex].map((tag, idx) => (
             <div className="workshop-tag-card" key={idx}>
               <AnimatePresence mode="wait">
                 <motion.span

@@ -52,6 +52,12 @@
   max-width: 1200px;
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .final-sticky { padding: 0 40px; }
+  .final-phrase { left: 40px; right: 40px; }
+  .final-phrase h1 { font-size: 2.8rem; }
+}
+
 @media (max-width: 768px) {
   .final-sticky { padding: 0 32px; }
   .final-phrase { left: 32px; right: 32px; top: 12vh; }

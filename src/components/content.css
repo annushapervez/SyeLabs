@@ -199,6 +199,20 @@
 
 
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .content-header { margin: 0 40px; padding-top: 80px; }
+  .content-headline { font-size: 1.9rem; }
+  .content-grid {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0 40px;
+    gap: 20px;
+  }
+  .featured { grid-column: span 2; }
+  .content-grid > :nth-child(-n+2) { height: 300px; }
+  .content-grid > :nth-child(n+3) { height: 280px; }
+  .content-grid > :nth-child(1) { height: 400px; }
+}
+
 @media (max-width: 768px) {
   .content-grid {
     grid-template-columns: 1fr;

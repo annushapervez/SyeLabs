@@ -162,6 +162,14 @@
   filter: invert(1);
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .intro { padding: 0px 40px 60px; }
+  .intro-cards-wrapper { margin-left: -40px; margin-right: -40px; }
+  .intro-cards { padding-left: 40px; padding-right: 40px; scroll-padding-left: 40px; }
+  .intro-card { flex: 0 0 calc((100% - 10px) / 2.1); min-height: 480px; }
+  .intro-headline { font-size: 1.9rem; }
+}
+
 @media (max-width: 768px) {
   .intro {
     padding: 40px 32px 60px;

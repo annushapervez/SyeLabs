@@ -517,6 +517,36 @@ filter: invert(85%) sepia(19%) saturate(272%) hue-rotate(353deg) brightness(98%)
   transition: color 0.4s ease;
 }
 
+/* ── Tablet ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root { --page-margin: 40px; --gutter: 56px; }
+
+  /* Hero */
+  .about-hero { min-height: 72vh; padding: 0 40px; }
+  .about-headline { left: 40px; right: 40px; }
+
+  /* Rule */
+  .about-rule { width: calc(100% - 80px); margin: 0 40px; }
+
+  /* Values */
+  .about-values { padding: 60px 40px 70px; }
+  .value-item:nth-child(odd) { padding-right: 48px; }
+  .value-item:nth-child(even) { padding-left: 48px; }
+
+  /* Team */
+  .about-team { padding: 80px 40px 80px; }
+  .about-section-label { font-size: 1.9rem; }
+  .team-grid { gap: 24px; }
+
+  /* Story header + SVG */
+  .our-story-header { margin-left: 40px; }
+  .timeline-svg { margin-top: 48vh; }
+
+  /* Closing */
+  .about-closing-sticky { padding: 0 40px; }
+  .about-closing-phrase { left: 40px; right: 40px; }
+}
+
 /* ── Mobile ── */
 
 
