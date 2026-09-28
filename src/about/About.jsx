@@ -44,7 +44,8 @@ const team = [
     name: "Syeda Habib",
     role: "Solution Architect",
     bio: "Turning complex tech into clear, actionable insight through conference briefings, homelab walkthroughs, and career guidance. Helping individuals find their place in the broader landscape and make informed, career-advancing decisions.",
-    // no image field
+       image: "/syeda.png",
+
   },
   {
     name: "Annusha Pervez",
