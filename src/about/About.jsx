@@ -42,21 +42,21 @@ const beats = [
 const team = [
   {
     name: "Syeda Habib",
-    role: "Solution Architect",
-    bio: "Turning complex tech into clear, actionable insight through conference briefings, homelab walkthroughs, and career guidance. Helping individuals find their place in the broader landscape and make informed, career-advancing decisions.",
+    role: "Executive Lead",
+    bio: "Setting the direction for SyeLabs and keeping the team aligned with the mission. Building relationships with industry leaders and partners while planning for the long-term growth of the community.",
        image: "/syeda.png",
 
   },
   {
     name: "Annusha Pervez",
-    role: "Technical Specialist",
-    bio: "Blending creativity and technical knowledge to turn abstract systems into clean, digestible visuals and explanations. Making complex technology simple and accessible, so learning feels intuitive instead of intimidating.",
+    role: "Technical Lead",
+    bio: "Designing Home Lab environments and hands-on projects while building the SyeLabs website. Turning complex technology into clear learning resources that feel approachable instead of intimidating.",
     image: "/annu.png",
   },
   {
     name: "Fatema Kibria",
-    role: "Digital Performance Analyst",
-    bio: "Turning raw data on youth behavior into clear, actionable strategies to reach young audiences effectively. Leveraging CRM systems to standardize workflows, driving long-term growth and stronger ROI for SyeLabs.",
+    role: "Content & Communications Lead",
+    bio: "Sharing the SyeLabs story through video, turning conferences and Home Labs into resources the community can actually use. Tracking engagement to keep improving what comes next.",
     image: "fatema.png",
   },
 ];

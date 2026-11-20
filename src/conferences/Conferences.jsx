@@ -5,18 +5,37 @@ import "./Conferences.css";
 
 const conferencePosts = [
   {
-    title: "Behind the Scenes at NVIDIA Conference 2025",
+    title: "Connecting at MassOpenAI",
     author: "SyeLabs Team",
-    tags: ["NVIDIA", "AI"],
-    body: "SyeLabs takes you inside one of the biggest AI events of the year. From the show floor to the sessions, here's what it actually looks and feels like to be in the room where the industry is moving.",
+    tags: ["MassOpenAI", "AI"],
+    body: "SyeLabs had the opportunity to connect with the MassOpenAI community and explore the latest developments in AI. From AI safety and data provenance to agentic systems and MCP servers, these conversations offered valuable insights into the technologies and ideas shaping the future of AI.",
     image: null,
-    video: "/linkedin2.mp4",
-    poster: "/linkedin2-poster.jpg",
-    imageName: "nvidia-conference-2025",
+    youtubeId: "Ym3wmbNwl5g",
+    imageName: "massopenai-community",
+    link: "https://youtu.be/Ym3wmbNwl5g",
   },
 ];
 
 const conferenceGridItems = [
+  {
+    title: "Where is AI taking security?",
+    youtubeId: "PSp1KBDymWw",
+    poster: "/security-poster.jpg",
+    link: "https://youtube.com/shorts/PSp1KBDymWw",
+  },
+  {
+    title: "AWS Summit Attendees Share AI Future Predictions",
+    hoverTitle: "We handed over the mic at AWS Summit and asked attendees about the tech inspiring them and their one-word prediction for the future of AI.",
+    video: "/linkedin8.mp4",
+    poster: "/linkedin8-poster.jpg",
+    link: "https://www.linkedin.com/feed/update/urn:li:activity:7475710066453602304",
+  },
+  {
+    title: "How can we cut through AI noise?",
+    youtubeId: "htMpw_hUC78",
+    poster: "/ai-noise-poster.jpg",
+    link: "https://youtube.com/shorts/htMpw_hUC78",
+  },
   {
     title: "Highlights from KubeCon 2024",
     hoverTitle: "Ever wondered what it's actually like to walk through a major tech conference as an insider? Here's your backstage pass.",
@@ -54,23 +73,15 @@ function useIsTouchDevice() {
 }
 
 const upcomingConference = {
-  title: "AWS Summit New York City 2026",
-  date: "June 17, 2026",
-  location: "New York City",
-  body: "SyeLabs is heading to AWS Summit NYC to explore what's actually working in AI, from real-world cloud adoption to practical strategies teams are using today. We'll be taking you inside the sessions, conversations, and innovations shaping the future.",
+  title: "AI Is Moving Fast. Are We Learning Fast Enough to Stay in Control?",
+  body: "From the DC State of the Stack Conference to MassOpenAI, conversations with AI users, builders, and security specialists reveal an important truth: The future of AI depends not just on what we build, but on how well we understand it.",
+  meta: [
+    { label: "Featuring", value: "DC State of the Stack & MassOpenAI" },
+    { label: "Read time", value: "5 min" },
+  ],
   highlights: [
-    {
-      title: "200+ Sessions",
-      image: "/aws.jpg",
-    },
-    {
-      title: "Hands-on Demos",
-      image: "/aws2.jpg",
-    },
-    {
-      title: "AI & Cloud Leaders",
-      image: "/aws3.jpg",
-    },
+    { title: "Read on Substack", url: "https://syelabs.substack.com/p/ai-is-moving-fast-are-we-learning" },
+    { title: "Read on Medium", url: "https://medium.com/@syelabs.thrivetogether/ai-is-moving-fast-are-we-learning-fast-enough-to-stay-in-control-e307fd54bb6c" },
   ],
 };
 
@@ -95,14 +106,100 @@ const confCardVariants = {
     transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
   },
 };
+// Muted, looping YouTube embed with a thumbnail on top. The video autoplays
+// behind the thumbnail and never pauses: YouTube flashes its play/pause
+// buttons for ~3s whenever playback starts, resumes or seeks. So the
+// thumbnail only lifts once the video has been playing for 4s, and `revealed`
+// (hover / touch) just shows or covers it. To keep scrolling smooth, the video
+// only plays while it's on (or near) screen.
+function YouTubeHoverVideo({ id, title, poster, revealed }) {
+  const iframeRef = useRef(null);
+  const readyTimer = useRef(null);
+  const onScreen = useRef(false);
+  const [ready, setReady] = useState(false);
+
+  // Controls the embed via its iframe API (requires enablejsapi=1).
+  const ytPost = (msg) =>
+    iframeRef.current?.contentWindow?.postMessage(JSON.stringify(msg), "*");
+  const ytCommand = (func, args = []) => ytPost({ event: "command", func, args });
+
+  useEffect(() => {
+    const onMessage = (e) => {
+      if (e.source !== iframeRef.current?.contentWindow) return;
+      let data;
+      try { data = JSON.parse(e.data); } catch { return; }
+      const state = data.event === "onStateChange" ? data.info : data.info?.playerState;
+      if (typeof state !== "number") return;
+      if (state === 1) {
+        // Autoplay can start before the player accepts commands, so pause here
+        // if it began playing off screen.
+        if (!onScreen.current) return ytCommand("pauseVideo");
+        ytCommand("setOption", ["captions", "track", {}]); // turn off auto-captions
+        if (!readyTimer.current) {
+          readyTimer.current = setTimeout(() => setReady(true), 4000);
+        }
+      } else if (state !== 3) {
+        // Buffering (3) doesn't bring the buttons back, so it's ignored.
+        clearTimeout(readyTimer.current);
+        readyTimer.current = null;
+        setReady(false);
+      }
+    };
+    window.addEventListener("message", onMessage);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        onScreen.current = entry.isIntersecting;
+        ytCommand(entry.isIntersecting ? "playVideo" : "pauseVideo");
+      },
+      { rootMargin: "200px 0px" }
+    );
+    observer.observe(iframeRef.current);
+
+    return () => {
+      window.removeEventListener("message", onMessage);
+      observer.disconnect();
+      clearTimeout(readyTimer.current);
+    };
+  }, []);
+
+  return (
+    <>
+      <iframe
+        ref={iframeRef}
+        src={`https://www.youtube-nocookie.com/embed/${id}?enablejsapi=1&mute=1&controls=0&loop=1&playlist=${id}&playsinline=1&rel=0&iv_load_policy=3&disablekb=1&autoplay=1`}
+        title={title}
+        allow="autoplay; encrypted-media"
+        tabIndex={-1}
+        onLoad={() => {
+          ytPost({ event: "listening", id, channel: "widget" });
+          ytCommand("addEventListener", ["onStateChange"]);
+        }}
+      />
+      <img
+        className="yt-poster"
+        src={poster}
+        alt={title}
+        style={{ opacity: ready && revealed ? 0 : 1 }}
+      />
+    </>
+  );
+}
+
 function PostCard({ post, i }) {
   const ref = useRef(null);
   const videoRef = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.25 });
   const isTouch = useIsTouchDevice();
 
-  const handleMouseEnter = () => videoRef.current?.play();
+  const [hovered, setHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    if (post.youtubeId) return setHovered(true);
+    videoRef.current?.play();
+  };
   const handleMouseLeave = () => {
+    if (post.youtubeId) return setHovered(false);
     if (videoRef.current) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
@@ -154,7 +251,14 @@ function PostCard({ post, i }) {
         <p className="conf-post-card-body">{post.body}</p>
       </div>
       <div className="conf-post-card-image">
-        {post.video ? (
+        {post.youtubeId ? (
+          <YouTubeHoverVideo
+            id={post.youtubeId}
+            title={post.title}
+            poster={`https://i.ytimg.com/vi/${post.youtubeId}/sddefault.jpg`}
+            revealed={hovered || isTouch}
+          />
+        ) : post.video ? (
           <video
             ref={videoRef}
             src={post.video}
@@ -225,7 +329,14 @@ function GridCard({ item, i }) {
       style={{ cursor: item.link ? "pointer" : "default" }}
     >
       <div className="conference-card-avatar">
-        {item.video ? (
+        {item.youtubeId ? (
+          <YouTubeHoverVideo
+            id={item.youtubeId}
+            title={item.title}
+            poster={item.poster ?? `https://i.ytimg.com/vi/${item.youtubeId}/oardefault.jpg`}
+            revealed={hovered || isTouch}
+          />
+        ) : item.video ? (
           <video
             ref={videoRef}
             src={item.video}
@@ -297,6 +408,8 @@ function HighlightsList({ highlights }) {
             key={h.title}
             className={`upcoming-conf-highlight ${isActive ? "is-active" : ""}`}
             onMouseEnter={() => setActiveIndex(i)}
+            onClick={() => h.url && window.open(h.url, "_blank")}
+            style={h.url ? { cursor: "pointer" } : undefined}
           >
             <div className="highlight-row">
               <motion.span
@@ -354,7 +467,7 @@ function UpcomingConference() {
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
     >
-      <h2 className="conferences-grid-title">Upcoming</h2>
+      <h2 className="conferences-grid-title">From the blog</h2>
       <div className="upcoming-conf-body">
         <div className="upcoming-conf-left">
           <h2 className="upcoming-conf-title">{upcomingConference.title}</h2>
@@ -362,14 +475,12 @@ function UpcomingConference() {
         </div>
         <div className="upcoming-conf-right">
           <div className="upcoming-conf-meta">
-            <div className="upcoming-conf-meta-item">
-              <span className="upcoming-conf-meta-label">Date</span>
-              <span className="upcoming-conf-meta-value">{upcomingConference.date}</span>
-            </div>
-            <div className="upcoming-conf-meta-item">
-              <span className="upcoming-conf-meta-label">Location</span>
-              <span className="upcoming-conf-meta-value">{upcomingConference.location}</span>
-            </div>
+            {upcomingConference.meta.map((m) => (
+              <div className="upcoming-conf-meta-item" key={m.label}>
+                <span className="upcoming-conf-meta-label">{m.label}</span>
+                <span className="upcoming-conf-meta-value">{m.value}</span>
+              </div>
+            ))}
           </div>
           <HighlightsList highlights={upcomingConference.highlights} />
         </div>

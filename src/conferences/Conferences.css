@@ -236,6 +236,30 @@
   object-position: top;
 }
 
+/* YouTube Shorts in grid cards: cover-fit a 9:16 player in the 3:3.5 card. */
+.conference-card-avatar:has(iframe) {
+  position: relative;
+}
+
+.conference-card-avatar iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 152.4%;
+  border: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.conference-card-avatar .yt-poster {
+  position: absolute;
+  inset: 0;
+  object-position: center;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
 .conference-card-info {
   display: flex;
   flex-direction: column;
@@ -385,6 +409,28 @@
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+/* YouTube embed: cover-fit a 16:9 player in the 4:3 card. */
+.conf-post-card-image iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 133.34%;
+  height: 100%;
+  border: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Thumbnail is 4:3 with letterbox bars; scale 1.333 removes them and
+   matches the iframe framing above. */
+.conf-post-card-image .yt-poster {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.334);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .conf-post-card-image-placeholder {
